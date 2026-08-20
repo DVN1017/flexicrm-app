@@ -3,6 +3,8 @@
  * It contains only the visual fields required by the login screen and intentionally has no
  * submit logic, API calls, or business rules.
  */
+import { AuthTextLink } from "@/components/ui/AuthTextLink";
+
 export function LoginForm() {
   return (
     <div className="mx-auto w-full max-w-md">
@@ -38,6 +40,9 @@ export function LoginForm() {
             autoComplete="current-password"
             className="w-full rounded-xl border border-border bg-background px-3.5 py-2.5 text-base text-text placeholder:text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
           />
+          <div className="text-right">
+            <AuthTextLink href="/forgot-password">Mot de passe oublié ?</AuthTextLink>
+          </div>
         </div>
 
         <button
