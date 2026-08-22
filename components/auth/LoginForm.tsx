@@ -38,7 +38,6 @@ export function LoginForm() {
     setPassword("");
 
     const supabase = createClient();
-
     const result = await signInWithPassword(supabase, {
       email: normalizedEmail,
       password: passwordToSubmit,
@@ -99,11 +98,7 @@ export function LoginForm() {
           </div>
         </div>
 
-        {errorMessage ? (
-          <p className="rounded-xl border border-error/25 bg-error/10 px-3.5 py-2.5 text-sm text-error" role="alert">
-            {errorMessage}
-          </p>
-        ) : null}
+        {errorMessage ? <p className="text-sm text-error" role="alert">{errorMessage}</p> : null}
 
         <button
           type="submit"

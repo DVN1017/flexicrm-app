@@ -7,6 +7,15 @@ export interface LoginCredentials {
   password: string;
 }
 
+export interface ForgotPasswordRequest {
+  email: string;
+  redirectTo: string;
+}
+
+export interface ResetPasswordRequest {
+  password: string;
+}
+
 export interface AuthResult {
   success: boolean;
   error: string | null;
