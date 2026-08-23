@@ -107,6 +107,10 @@ export function LoginForm() {
         >
           {isLoading ? AUTH_MESSAGES.SIGNING_IN : AUTH_MESSAGES.SIGN_IN}
         </button>
+
+        <div className="text-center">
+          <AuthTextLink href={AUTH_ROUTES.CREATE_COMPANY}>Creer mon entreprise</AuthTextLink>
+        </div>
       </form>
     </div>
   );

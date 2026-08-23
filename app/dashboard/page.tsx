@@ -7,6 +7,7 @@ import { redirect } from "next/navigation";
 import { AUTH_ROUTES } from "@/constants/auth";
 import { DashboardSignOutButton } from "@/components/auth/DashboardSignOutButton";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { getCurrentUserCompanyAccess } from "@/services/company.service";
 
 export default async function DashboardPage() {
   const supabase = await createServerSupabaseClient();
@@ -17,6 +18,8 @@ export default async function DashboardPage() {
   if (!user) {
     redirect(AUTH_ROUTES.LOGIN);
   }
+
+  const companyAccess = await getCurrentUserCompanyAccess(supabase, user.id);
 
   return (
     <main className="min-h-screen bg-background px-4 py-10 text-text sm:px-6 lg:px-8">
@@ -29,6 +32,13 @@ export default async function DashboardPage() {
         </p>
 
         <div className="mt-8 rounded-xl border border-border bg-background p-4">
+          <p className="text-xs uppercase tracking-[0.16em] text-muted">Entreprise</p>
+          <p className="mt-2 text-base font-medium text-text">
+            {companyAccess?.companyName ?? "Entreprise non configuree"}
+          </p>
+        </div>
+
+        <div className="mt-4 rounded-xl border border-border bg-background p-4">
           <p className="text-xs uppercase tracking-[0.16em] text-muted">Utilisateur connecté</p>
           <p className="mt-2 text-base font-medium text-text">{user.email}</p>
         </div>
