@@ -27,19 +27,33 @@ function isAuthPath(pathname: string): boolean {
   return PUBLIC_PATHS.has(pathname);
 }
 
-async function hasCompanyMembership(userId: string, supabase: SupabaseClient) {
+function isPublicPath(pathname: string): boolean {
+  if (isAuthPath(pathname)) {
+    return true;
+  }
+
+  return pathname.startsWith(`${AUTH_ROUTES.INVITE}/`);
+}
+
+async function getCompanyMembershipAccess(userId: string, supabase: SupabaseClient) {
   const { data, error } = await supabase
     .from("company_members")
-    .select("company_id")
+    .select("company_id, role")
     .eq("user_id", userId)
     .limit(1)
     .maybeSingle();
 
   if (error) {
-    return false;
+    return {
+      hasCompany: false,
+      role: null as "owner" | "admin" | "member" | null,
+    };
   }
 
-  return Boolean(data?.company_id);
+  return {
+    hasCompany: Boolean(data?.company_id),
+    role: (data?.role as "owner" | "admin" | "member" | null) ?? null,
+  };
 }
 
 export async function middleware(request: NextRequest) {
@@ -77,9 +91,9 @@ export async function middleware(request: NextRequest) {
   } = await supabase.auth.getUser();
 
   const { pathname } = request.nextUrl;
-  const authPath = isAuthPath(pathname);
+  const publicPath = isPublicPath(pathname);
 
-  if (!authPath && !user) {
+  if (!publicPath && !user) {
     const redirectUrl = request.nextUrl.clone();
     redirectUrl.pathname = AUTH_ROUTES.LOGIN;
     return NextResponse.redirect(redirectUrl);
@@ -89,7 +103,18 @@ export async function middleware(request: NextRequest) {
     return response;
   }
 
-  const userHasCompany = await hasCompanyMembership(user.id, supabase);
+  const membershipAccess = await getCompanyMembershipAccess(user.id, supabase);
+  const userHasCompany = membershipAccess.hasCompany;
+
+  if (
+    userHasCompany &&
+    pathname.startsWith(AUTH_ROUTES.DASHBOARD_TEAM) &&
+    membershipAccess.role === "member"
+  ) {
+    const redirectUrl = request.nextUrl.clone();
+    redirectUrl.pathname = AUTH_ROUTES.DASHBOARD;
+    return NextResponse.redirect(redirectUrl);
+  }
 
   if (!userHasCompany && !ALLOWED_PATHS_WITHOUT_COMPANY.has(pathname)) {
     const redirectUrl = request.nextUrl.clone();

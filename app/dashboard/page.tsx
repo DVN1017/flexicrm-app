@@ -2,9 +2,10 @@
  * Dashboard landing page for authenticated users.
  * This server route verifies the active Supabase session before rendering any business content.
  */
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
-import { AUTH_ROUTES } from "@/constants/auth";
+import { AUTH_MESSAGES, AUTH_ROUTES } from "@/constants/auth";
 import { DashboardSignOutButton } from "@/components/auth/DashboardSignOutButton";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { getCurrentUserCompanyAccess } from "@/services/company.service";
@@ -44,6 +45,13 @@ export default async function DashboardPage() {
         </div>
 
         <div className="mt-6">
+          {companyAccess && companyAccess.role !== "member" ? (
+            <div className="mb-3">
+              <Link className="text-sm font-medium text-primary hover:underline" href={AUTH_ROUTES.DASHBOARD_TEAM}>
+                {AUTH_MESSAGES.GO_TO_TEAM}
+              </Link>
+            </div>
+          ) : null}
           <DashboardSignOutButton />
         </div>
       </section>
