@@ -1,6 +1,5 @@
 /**
  * Dashboard landing page for authenticated users.
- * This server route verifies the active Supabase session before rendering any business content.
  */
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -12,13 +11,8 @@ import { getCurrentUserCompanyAccess } from "@/services/company.service";
 
 export default async function DashboardPage() {
   const supabase = await createServerSupabaseClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect(AUTH_ROUTES.LOGIN);
-  }
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) redirect(AUTH_ROUTES.LOGIN);
 
   const companyAccess = await getCurrentUserCompanyAccess(supabase, user.id);
 
@@ -27,16 +21,11 @@ export default async function DashboardPage() {
       <section className="mx-auto w-full max-w-4xl rounded-2xl border border-border bg-surface p-6 shadow-soft sm:p-8">
         <p className="text-sm font-medium uppercase tracking-[0.18em] text-primary">FlexiCRM</p>
         <h1 className="mt-4 text-3xl font-semibold tracking-tight text-text">Tableau de bord</h1>
-        <p className="mt-3 text-sm text-muted">
-          Connexion réussie. Cette page servira de point d’entrée pour les modules métier au prochain
-          sprint.
-        </p>
+        <p className="mt-3 text-sm text-muted">Centre de pilotage de votre entreprise.</p>
 
         <div className="mt-8 rounded-xl border border-border bg-background p-4">
           <p className="text-xs uppercase tracking-[0.16em] text-muted">Entreprise</p>
-          <p className="mt-2 text-base font-medium text-text">
-            {companyAccess?.companyName ?? "Entreprise non configuree"}
-          </p>
+          <p className="mt-2 text-base font-medium text-text">{companyAccess?.companyName ?? "Entreprise non configuree"}</p>
         </div>
 
         <div className="mt-4 rounded-xl border border-border bg-background p-4">
@@ -44,13 +33,14 @@ export default async function DashboardPage() {
           <p className="mt-2 text-base font-medium text-text">{user.email}</p>
         </div>
 
-        <div className="mt-6">
+        <div className="mt-6 flex flex-wrap gap-3">
+          <Link href="/dashboard/conversations" className="rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-white hover:opacity-90">
+            Ouvrir les conversations
+          </Link>
           {companyAccess && companyAccess.role !== "member" ? (
-            <div className="mb-3">
-              <Link className="text-sm font-medium text-primary hover:underline" href={AUTH_ROUTES.DASHBOARD_TEAM}>
-                {AUTH_MESSAGES.GO_TO_TEAM}
-              </Link>
-            </div>
+            <Link className="rounded-xl border border-border px-5 py-3 text-sm font-medium text-text hover:bg-background" href={AUTH_ROUTES.DASHBOARD_TEAM}>
+              {AUTH_MESSAGES.GO_TO_TEAM}
+            </Link>
           ) : null}
           <DashboardSignOutButton />
         </div>
