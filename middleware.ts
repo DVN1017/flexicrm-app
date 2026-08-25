@@ -1,6 +1,7 @@
 /**
  * Global route protection middleware.
- * Any route outside auth entry points requires an active Supabase session.
+ * WhatsApp webhooks are public transport endpoints and are authenticated
+ * independently with Meta's HMAC signature in the route handler.
  */
 import { createServerClient } from "@supabase/ssr";
 import type { SupabaseClient } from "@supabase/supabase-js";
@@ -23,16 +24,11 @@ const ALLOWED_PATHS_WITHOUT_COMPANY = new Set<string>([
   AUTH_ROUTES.LOGOUT,
 ]);
 
-function isAuthPath(pathname: string): boolean {
-  return PUBLIC_PATHS.has(pathname);
-}
-
 function isPublicPath(pathname: string): boolean {
-  if (isAuthPath(pathname)) {
-    return true;
-  }
-
-  return pathname.startsWith(`${AUTH_ROUTES.INVITE}/`);
+  if (PUBLIC_PATHS.has(pathname)) return true;
+  if (pathname.startsWith(`${AUTH_ROUTES.INVITE}/`)) return true;
+  if (pathname === "/api/webhooks/whatsapp") return true;
+  return false;
 }
 
 async function getCompanyMembershipAccess(userId: string, supabase: SupabaseClient) {
@@ -44,10 +40,7 @@ async function getCompanyMembershipAccess(userId: string, supabase: SupabaseClie
     .maybeSingle();
 
   if (error) {
-    return {
-      hasCompany: false,
-      role: null as "owner" | "admin" | "member" | null,
-    };
+    return { hasCompany: false, role: null as "owner" | "admin" | "member" | null };
   }
 
   return {
@@ -57,39 +50,23 @@ async function getCompanyMembershipAccess(userId: string, supabase: SupabaseClie
 }
 
 export async function middleware(request: NextRequest) {
-  let response = NextResponse.next({
-    request,
-  });
-
+  let response = NextResponse.next({ request });
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL ?? "",
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "",
     {
       cookies: {
-        getAll() {
-          return request.cookies.getAll();
-        },
+        getAll() { return request.cookies.getAll(); },
         setAll(cookiesToSet) {
-          for (const cookie of cookiesToSet) {
-            request.cookies.set(cookie.name, cookie.value);
-          }
-
-          response = NextResponse.next({
-            request,
-          });
-
-          for (const cookie of cookiesToSet) {
-            response.cookies.set(cookie.name, cookie.value, cookie.options);
-          }
+          for (const cookie of cookiesToSet) request.cookies.set(cookie.name, cookie.value);
+          response = NextResponse.next({ request });
+          for (const cookie of cookiesToSet) response.cookies.set(cookie.name, cookie.value, cookie.options);
         },
       },
     },
   );
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
+  const { data: { user } } = await supabase.auth.getUser();
   const { pathname } = request.nextUrl;
   const publicPath = isPublicPath(pathname);
 
@@ -99,18 +76,12 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(redirectUrl);
   }
 
-  if (!user) {
-    return response;
-  }
+  if (!user || publicPath) return response;
 
   const membershipAccess = await getCompanyMembershipAccess(user.id, supabase);
   const userHasCompany = membershipAccess.hasCompany;
 
-  if (
-    userHasCompany &&
-    pathname.startsWith(AUTH_ROUTES.DASHBOARD_TEAM) &&
-    membershipAccess.role === "member"
-  ) {
+  if (userHasCompany && pathname.startsWith(AUTH_ROUTES.DASHBOARD_TEAM) && membershipAccess.role === "member") {
     const redirectUrl = request.nextUrl.clone();
     redirectUrl.pathname = AUTH_ROUTES.DASHBOARD;
     return NextResponse.redirect(redirectUrl);
