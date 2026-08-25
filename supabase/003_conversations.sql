@@ -70,16 +70,10 @@ create index if not exists idx_messages_conversation_created on public.messages(
 create index if not exists idx_messages_company_created on public.messages(company_id, created_at desc);
 
 create or replace function public.conversation_company_matches()
-returns trigger
-language plpgsql
-as $$
+returns trigger language plpgsql as $$
 begin
-  if not exists (select 1 from public.clients c where c.id = new.client_id and c.company_id = new.company_id) then
-    raise exception 'CLIENT_COMPANY_MISMATCH';
-  end if;
-  if not exists (select 1 from public.whatsapp_accounts w where w.id = new.whatsapp_account_id and w.company_id = new.company_id) then
-    raise exception 'WHATSAPP_ACCOUNT_COMPANY_MISMATCH';
-  end if;
+  if not exists (select 1 from public.clients c where c.id = new.client_id and c.company_id = new.company_id) then raise exception 'CLIENT_COMPANY_MISMATCH'; end if;
+  if not exists (select 1 from public.whatsapp_accounts w where w.id = new.whatsapp_account_id and w.company_id = new.company_id) then raise exception 'WHATSAPP_ACCOUNT_COMPANY_MISMATCH'; end if;
   return new;
 end;
 $$;
@@ -88,13 +82,9 @@ drop trigger if exists trg_conversation_company_matches on public.conversations;
 create trigger trg_conversation_company_matches before insert or update on public.conversations for each row execute function public.conversation_company_matches();
 
 create or replace function public.message_company_matches()
-returns trigger
-language plpgsql
-as $$
+returns trigger language plpgsql as $$
 begin
-  if not exists (select 1 from public.conversations c where c.id = new.conversation_id and c.company_id = new.company_id) then
-    raise exception 'MESSAGE_COMPANY_MISMATCH';
-  end if;
+  if not exists (select 1 from public.conversations c where c.id = new.conversation_id and c.company_id = new.company_id) then raise exception 'MESSAGE_COMPANY_MISMATCH'; end if;
   return new;
 end;
 $$;
@@ -118,10 +108,8 @@ alter table public.clients force row level security;
 alter table public.conversations force row level security;
 alter table public.messages force row level security;
 
--- WhatsApp credentials are intentionally not readable by normal authenticated clients.
--- Server-side webhook/send operations use the service-role client.
+-- Credentials must never be readable by browser sessions. Server operations use service role.
 drop policy if exists whatsapp_accounts_select_member on public.whatsapp_accounts;
-create policy whatsapp_accounts_select_member on public.whatsapp_accounts for select to authenticated using (public.is_company_member(company_id));
 drop policy if exists whatsapp_accounts_insert_admin on public.whatsapp_accounts;
 create policy whatsapp_accounts_insert_admin on public.whatsapp_accounts for insert to authenticated with check (public.is_company_admin(company_id));
 drop policy if exists whatsapp_accounts_update_admin on public.whatsapp_accounts;
@@ -129,7 +117,7 @@ create policy whatsapp_accounts_update_admin on public.whatsapp_accounts for upd
 drop policy if exists whatsapp_accounts_delete_admin on public.whatsapp_accounts;
 create policy whatsapp_accounts_delete_admin on public.whatsapp_accounts for delete to authenticated using (public.is_company_admin(company_id));
 
--- These policies deliberately scope every row to the current company.
+-- Every business table is tenant-scoped.
 drop policy if exists clients_select_member on public.clients;
 create policy clients_select_member on public.clients for select to authenticated using (public.is_company_member(company_id));
 drop policy if exists clients_insert_member on public.clients;
@@ -157,13 +145,14 @@ create policy messages_update_member on public.messages for update to authentica
 drop policy if exists messages_delete_admin on public.messages;
 create policy messages_delete_admin on public.messages for delete to authenticated using (public.is_company_admin(company_id));
 
--- Secure server-side helpers. They are callable only with the service role.
-revoke all on function public.find_whatsapp_account_by_phone_number_id(text) from public, anon, authenticated;
-create or replace function public.find_whatsapp_account_by_phone_number_id(p_phone_number_id text)
-returns public.whatsapp_accounts
-language sql
-security definer
-set search_path = public
-as $$ select * from public.whatsapp_accounts where phone_number_id = p_phone_number_id limit 1 $$;
+-- Regression tests: these fail loudly if RLS is not enabled/forced.
+do $$
+begin
+  if not exists (select 1 from pg_class where oid = 'public.whatsapp_accounts'::regclass and relrowsecurity and relforcerowsecurity) then raise exception 'RLS_WHATSAPP_ACCOUNTS_NOT_STRICT'; end if;
+  if not exists (select 1 from pg_class where oid = 'public.clients'::regclass and relrowsecurity and relforcerowsecurity) then raise exception 'RLS_CLIENTS_NOT_STRICT'; end if;
+  if not exists (select 1 from pg_class where oid = 'public.conversations'::regclass and relrowsecurity and relforcerowsecurity) then raise exception 'RLS_CONVERSATIONS_NOT_STRICT'; end if;
+  if not exists (select 1 from pg_class where oid = 'public.messages'::regclass and relrowsecurity and relforcerowsecurity) then raise exception 'RLS_MESSAGES_NOT_STRICT'; end if;
+end;
+$$;
 
 commit;
