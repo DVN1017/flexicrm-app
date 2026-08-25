@@ -1,0 +1,532 @@
+Chapitre 1 - Structure générale du projet
+🎯 Objectif
+
+Définir une architecture claire, évolutive et facile à maintenir pour le développement de FlexiCRM.
+
+Le projet est organisé de manière à séparer le code métier, les composants d'interface, les services externes et la documentation.
+
+1. Organisation générale
+FlexiCRM/
+│
+├── Docs/
+│
+├── flexicrm-app/
+│
+└── README.md
+
+Le dossier Docs contient toute la documentation du projet.
+
+Le dossier flexicrm-app contient l'ensemble du code source.
+
+2. Structure de l'application
+flexicrm-app/
+│
+├── app/
+├── components/
+├── lib/
+├── services/
+├── hooks/
+├── types/
+├── public/
+├── supabase/
+├── middleware.ts
+├── package.json
+└── ...
+3. Responsabilité des dossiers
+
+app/
+
+Contient les pages, layouts et routes API de Next.js.
+
+components/
+
+Contient les composants réutilisables de l'interface.
+
+lib/
+
+Fonctions utilitaires, helpers et configuration.
+
+services/
+
+Communication avec WhatsApp, OpenAI, paiements et autres services externes.
+
+hooks/
+
+Hooks React personnalisés.
+
+types/
+
+Types TypeScript partagés dans toute l'application.
+
+public/
+
+Images, icônes et ressources statiques.
+
+supabase/
+
+Configuration et scripts liés à Supabase.
+
+4. Principes d'architecture
+
+Le code doit respecter les principes suivants :
+
+séparation des responsabilités ;
+composants réutilisables ;
+code fortement typé avec TypeScript ;
+architecture évolutive ;
+facilité de maintenance.
+5. Ce qu'il faut retenir
+La documentation est séparée du code.
+Le projet est organisé par responsabilité.
+Chaque dossier possède un rôle précis.
+L'architecture est conçue pour évoluer avec le projet.
+🎯 Objectif atteint
+
+La structure générale du projet est définie et servira de base au développement de FlexiCRM.
+
+
+_____________________________________________________________________________________________________________________________
+
+
+Chapitre 2 - Architecture Next.js
+🎯 Objectif
+
+Définir l'organisation de l'application Next.js afin de garantir une structure claire, performante et évolutive.
+
+1. App Router
+
+FlexiCRM utilise Next.js App Router.
+
+Toutes les pages et routes API sont organisées dans le dossier app/.
+
+Cette architecture facilite le développement, le routage et les futures évolutions.
+
+2. Pages principales
+
+L'application comprendra notamment :
+
+Authentification
+Tableau de bord
+Conversations
+Clients
+Dossiers
+Pipelines
+Paiements
+Statistiques
+Paramètres
+
+Chaque module possède son propre espace.
+
+3. Layouts
+
+Les layouts permettent de partager les éléments communs.
+
+Exemples :
+
+Barre latérale
+Barre supérieure
+Notifications
+Menus
+Informations utilisateur
+
+Ils évitent la duplication de code.
+
+4. API Routes
+
+Toutes les communications avec les services externes passent par les API Routes.
+
+Exemples :
+
+WhatsApp Business
+OpenAI
+Paiements
+Webhooks
+Automatisations
+
+Les clés secrètes restent uniquement côté serveur.
+
+5. Composants
+
+Les composants sont réutilisables.
+
+Exemples :
+
+Boutons
+Tableaux
+Cartes
+Formulaires
+Fenêtres modales
+Menus
+
+Chaque composant est développé une seule fois puis réutilisé dans toute l'application.
+
+6. Ce qu'il faut retenir
+Next.js App Router est utilisé.
+Les API Routes centralisent les échanges avec les services externes.
+Les composants sont réutilisables.
+Les layouts évitent les duplications.
+🎯 Objectif atteint
+
+L'architecture Next.js est définie et servira de base au développement de FlexiCRM.
+
+_______________________________________________________________________________________________________
+
+Chapitre 3 - Architecture Supabase
+🎯 Objectif
+
+Définir l'organisation de Supabase afin d'assurer un stockage sécurisé, performant et évolutif des données de FlexiCRM.
+
+Supabase constitue le backend principal de l'application.
+
+1. Base de données
+
+Toutes les données métier sont stockées dans PostgreSQL via Supabase.
+
+La base de données contient notamment :
+
+Entreprises
+Utilisateurs
+Clients
+Conversations
+Messages
+Dossiers
+Pipelines
+Paiements
+Notifications
+Automatisations
+Paramètres
+Journal d'activité
+
+Les relations entre les tables garantissent la cohérence des données.
+
+2. Authentification
+
+Supabase Authentication gère :
+
+Connexion
+Déconnexion
+Réinitialisation du mot de passe
+Gestion des sessions
+Vérification des utilisateurs
+
+Les mots de passe ne sont jamais stockés directement dans la base de données.
+
+3. Storage
+
+Supabase Storage est utilisé pour conserver les fichiers.
+
+Exemples :
+
+Photos
+Passeports
+Documents PDF
+Images
+Audios
+Vidéos
+Logos des entreprises
+
+La base de données stocke uniquement les références des fichiers.
+
+4. Sécurité (Row Level Security)
+
+Chaque entreprise accède uniquement à ses propres données.
+
+Les règles de sécurité empêchent toute entreprise d'accéder aux informations d'une autre.
+
+L'isolation des données est une règle fondamentale de FlexiCRM.
+
+5. Temps réel (Realtime)
+
+Supabase Realtime permet d'actualiser automatiquement l'application.
+
+Exemples :
+
+Nouveau message WhatsApp.
+Nouvelle notification.
+Changement d'étape d'un dossier.
+Nouveau paiement.
+Nouvelle attribution.
+
+Les utilisateurs voient les changements sans recharger la page.
+
+6. Sauvegarde
+
+Les données sont sauvegardées conformément aux mécanismes de Supabase.
+
+Les futures versions pourront intégrer des stratégies complémentaires de sauvegarde et d'archivage.
+
+7. Ce qu'il faut retenir
+Supabase est le backend principal.
+PostgreSQL stocke les données.
+Storage conserve les fichiers.
+Authentication gère les utilisateurs.
+Realtime met à jour les informations en direct.
+Row Level Security protège les données de chaque entreprise.
+🎯 Objectif atteint
+
+L'architecture Supabase est définie et garantit une base solide, sécurisée et évolutive pour FlexiCRM.
+
+________________________________________________________________________________________________________________________________
+
+
+Chapitre 4 - Services et intégrations
+🎯 Objectif
+
+Définir les services externes utilisés par FlexiCRM ainsi que leur rôle dans l'architecture du système.
+
+Les services sont indépendants de l'application principale afin de faciliter leur maintenance et leur évolution.
+
+1. WhatsApp Business Platform
+
+WhatsApp Business Platform constitue le principal canal de communication entre les entreprises et leurs clients.
+
+Elle permet notamment :
+
+recevoir les messages ;
+envoyer les réponses ;
+recevoir les événements (Webhook) ;
+gérer les modèles de messages ;
+connecter plusieurs entreprises à FlexiCRM.
+
+Toutes les communications passent par l'API officielle de Meta.
+
+2. Intelligence Artificielle
+
+L'Intelligence Artificielle est utilisée comme assistant.
+
+Elle peut :
+
+répondre aux clients ;
+assister les employés ;
+résumer les conversations ;
+proposer des réponses ;
+automatiser certaines tâches.
+
+L'IA reste toujours configurable par l'entreprise.
+
+3. Services de paiement
+
+FlexiCRM est conçu pour intégrer plusieurs passerelles de paiement.
+
+Exemples :
+
+Stripe
+Flutterwave
+CinetPay
+Chariow
+Mobile Money
+
+L'architecture permet d'ajouter facilement de nouveaux fournisseurs sans modifier le fonctionnement général de l'application.
+
+4. Notifications
+
+Les notifications permettent d'informer les utilisateurs en temps réel.
+
+Les futures versions pourront intégrer :
+
+Push Mobile
+Email
+SMS
+Slack
+Microsoft Teams
+5. Services futurs
+
+L'architecture est conçue pour accueillir facilement de nouveaux services.
+
+Exemples :
+
+Signature électronique
+OCR (lecture automatique des documents)
+Traduction automatique
+Calendriers
+Google Drive
+OneDrive
+Dropbox
+
+Aucune modification majeure de l'architecture ne sera nécessaire pour ajouter ces services.
+
+6. Ce qu'il faut retenir
+Chaque service possède une responsabilité précise.
+Les services sont indépendants de l'application principale.
+L'architecture facilite l'ajout de nouveaux services.
+Toutes les intégrations passent par des interfaces sécurisées.
+🎯 Objectif atteint
+
+L'architecture de FlexiCRM permet d'intégrer facilement des services externes tout en conservant un système modulaire, évolutif et facile à maintenir.
+
+_________________________________________________________________________________________________________________________________________________________________________
+
+
+Chapitre 5 - Sécurité
+🎯 Objectif
+
+Garantir la confidentialité, l'intégrité et la disponibilité des données de chaque entreprise utilisant FlexiCRM.
+
+La sécurité constitue un principe fondamental de l'architecture du projet.
+
+1. Authentification
+
+Chaque utilisateur possède son propre compte.
+
+L'authentification est gérée par Supabase Authentication.
+
+Chaque connexion est sécurisée et les sessions sont contrôlées automatiquement.
+
+Les mots de passe ne sont jamais stockés en clair.
+
+2. Autorisation
+
+L'accès aux fonctionnalités est contrôlé par les rôles et les permissions.
+
+Chaque utilisateur peut uniquement accéder aux données et aux actions autorisées.
+
+Les permissions sont entièrement configurables par l'entreprise.
+
+3. Isolation des données
+
+FlexiCRM est une plateforme SaaS multi-entreprises.
+
+Chaque entreprise accède uniquement à ses propres données.
+
+Cette isolation est assurée par les politiques de sécurité (Row Level Security) de Supabase.
+
+4. Protection des informations sensibles
+
+Les informations sensibles sont protégées.
+
+Exemples :
+
+Access Tokens
+Clés API
+Phone Number ID
+Identifiants des services externes
+
+Ces informations sont accessibles uniquement par le serveur.
+
+Elles ne sont jamais exposées au navigateur.
+
+5. Communications sécurisées
+
+Toutes les communications utilisent le protocole HTTPS.
+
+Les échanges avec :
+
+WhatsApp Business Platform
+OpenAI
+Supabase
+Les passerelles de paiement
+
+sont réalisés via des connexions sécurisées.
+
+6. Journal de sécurité
+
+Les événements importants sont enregistrés.
+
+Exemples :
+
+Connexions
+Déconnexions
+Échecs de connexion
+Modifications des permissions
+Actions administratives
+
+Ces informations permettent de renforcer la sécurité et de faciliter les audits.
+
+7. Sauvegarde et récupération
+
+Les données doivent pouvoir être restaurées en cas d'incident.
+
+L'architecture prévoit des mécanismes de sauvegarde adaptés afin de limiter les risques de perte de données.
+
+8. Ce qu'il faut retenir
+Chaque utilisateur possède un compte sécurisé.
+Les entreprises sont totalement isolées.
+Les informations sensibles restent côté serveur.
+Toutes les communications sont sécurisées.
+Les événements importants sont enregistrés.
+🎯 Objectif atteint
+
+L'architecture de FlexiCRM garantit un haut niveau de sécurité tout en protégeant les données des entreprises et de leurs clients.
+
+
+
+_____________________________________________________________________________________________________________________________________________________________
+
+Chapitre 6 - Architecture générale de FlexiCRM
+🎯 Objectif
+
+Présenter le fonctionnement global de FlexiCRM et les interactions entre les différents composants du système.
+
+L'architecture est conçue pour être modulaire, sécurisée, évolutive et adaptée à une plateforme SaaS multi-entreprises.
+
+1. Architecture générale
+                         Client
+                            │
+                            ▼
+                      WhatsApp Business
+                            │
+                            ▼
+                    Meta Cloud API
+                            │
+                            ▼
+                 Webhook FlexiCRM (Next.js)
+                            │
+        ┌───────────────────┼───────────────────┐
+        ▼                   ▼                   ▼
+   Base de données      Intelligence IA     Automatisations
+    (Supabase)             (OpenAI)           (Workflows)
+        │                   │                   │
+        └───────────────────┼───────────────────┘
+                            ▼
+                   Interface FlexiCRM
+                            │
+                            ▼
+                    Employés / Direction
+2. Flux principal
+
+Le fonctionnement général de FlexiCRM suit les étapes suivantes :
+
+Le client envoie un message sur WhatsApp.
+Meta transmet ce message au Webhook de FlexiCRM.
+FlexiCRM identifie l'entreprise concernée.
+Les informations sont enregistrées dans Supabase.
+Les automatisations sont exécutées si nécessaire.
+L'IA intervient selon les paramètres de l'entreprise.
+La conversation est affichée aux utilisateurs autorisés.
+L'employé répond depuis FlexiCRM.
+FlexiCRM transmet la réponse à Meta.
+Meta livre le message au client.
+3. Les principes d'architecture
+
+FlexiCRM repose sur les principes suivants :
+
+Architecture modulaire.
+SaaS multi-entreprises.
+Séparation des responsabilités.
+Sécurité par défaut.
+Évolutivité.
+Composants réutilisables.
+API centralisées.
+Documentation continue.
+4. Les technologies principales
+
+Le projet repose sur les technologies suivantes :
+
+Frontend : Next.js
+Backend : Supabase
+Base de données : PostgreSQL
+Authentification : Supabase Auth
+Stockage : Supabase Storage
+Temps réel : Supabase Realtime
+IA : OpenAI
+Messagerie : WhatsApp Business Platform
+Déploiement : Vercel
+5. Ce qu'il faut retenir
+FlexiCRM est construit autour d'une architecture moderne et évolutive.
+Les données sont centralisées dans Supabase.
+Toutes les communications WhatsApp passent par l'API officielle de Meta.
+L'IA et les automatisations fonctionnent comme des services indépendants.
+Chaque entreprise travaille dans un espace totalement isolé.
+🎯 Objectif atteint
+
+L'architecture technique de FlexiCRM est désormais définie. Elle servira de référence pour le développement de l'application

@@ -1,0 +1,927 @@
+📄 04 - API WhatsApp Business Platform
+Chapitre 1 : Comprendre l'écosystème Meta
+1. Pourquoi Meta a créé une API ?
+
+Imagine.
+
+Tu possèdes WhatsApp.
+
+Demain...
+
+1 milliard d'entreprises veulent envoyer automatiquement des messages.
+
+Est-ce que Meta va leur donner accès directement aux serveurs WhatsApp ?
+
+❌ Non.
+
+Il crée une porte d'entrée.
+
+Cette porte s'appelle :
+
+API
+
+Une API est simplement :
+
+Un moyen sécurisé pour deux logiciels de communiquer.
+
+Donc :
+
+FlexiCRM
+
+↓
+
+API WhatsApp
+
+↓
+
+WhatsApp
+
+↓
+
+Client
+2. Les acteurs
+
+Il y en a seulement 6.
+
+Et je veux que tu les connaisses par cœur.
+
+Acteur 1
+Meta
+
+Le propriétaire.
+
+C'est Meta qui possède :
+
+Facebook
+Instagram
+WhatsApp
+Acteur 2
+L'entreprise
+
+Exemple :
+
+Restaurant
+
+Agence de voyage
+
+Clinique
+
+Boutique
+
+Le numéro WhatsApp appartient à cette entreprise.
+
+Jamais à nous.
+
+Acteur 3
+FlexiCRM
+
+Notre logiciel.
+
+Il demande l'autorisation de communiquer.
+
+Acteur 4
+Le client
+
+Il écrit.
+
+Il reçoit les réponses.
+
+Acteur 5
+Les employés
+
+Ils utilisent FlexiCRM.
+
+Pas Meta.
+
+Ils se connectent uniquement à notre logiciel.
+
+Acteur 6
+L'IA
+
+Elle aide les employés.
+
+Elle ne parle jamais directement avec Meta.
+
+Elle parle avec FlexiCRM.
+
+Le schéma complet
+               META
+
+                 │
+
+      WhatsApp Business Platform
+
+                 │
+
+          FlexiCRM AI
+
+        ┌────────┴────────┐
+
+        │                 │
+
+      Employés            IA
+
+        │
+
+        ▼
+
+      Client
+Maintenant...
+
+Je vais te poser une question.
+
+Imaginons qu'un restaurant t'appelle.
+
+Il dit :
+
+"Je veux FlexiCRM."
+
+À ton avis...
+
+Qui est propriétaire du numéro WhatsApp ?
+
+A)
+
+FlexiCRM
+
+B)
+
+Meta
+
+C)
+
+Le restaurant
+
+3. Le plus gros piège
+
+Beaucoup de développeurs pensent :
+
+"Je vais connecter MON numéro WhatsApp."
+
+❌
+
+C'est faux.
+
+Nous ne connectons pas notre numéro.
+
+Nous connectons le numéro du client.
+
+Ça change tout.
+
+4. Alors pourquoi créer une Meta App ?
+
+Très bonne question.
+
+Parce que Meta veut savoir :
+
+Qui demande l'accès au numéro ?
+
+La réponse :
+
+FlexiCRM.
+
+Notre logiciel possède donc sa propre identité.
+
+Cette identité est :
+
+Meta App
+
+Cette Meta App représente :
+
+FlexiCRM AI
+
+Pas le restaurant.
+
+Pas le client.
+
+Pas toi.
+
+Petit exemple
+
+Imagine Microsoft.
+
+Microsoft possède :
+
+Word
+
+Excel
+
+Teams
+
+Chaque logiciel possède sa propre identité.
+
+Nous ferons pareil.
+
+FlexiCRM sera une application Meta.
+
+Toutes les entreprises utiliseront cette même application.
+
+Architecture réelle
+               Meta App
+
+             FlexiCRM AI
+
+                    │
+
+        ┌───────────┼─────────────┐
+
+        ▼           ▼             ▼
+
+Restaurant      Clinique      Agence
+
++226...         +225...       +221...
+
+Une seule application.
+
+Des milliers d'entreprises.
+
+5. Les comptes Meta
+
+Là...
+
+Nous arrivons à quelque chose de très important.
+
+Une entreprise possède :
+
+Meta Business Account
+
+C'est son identité.
+
+Notre logiciel possède :
+
+Meta App
+
+C'est notre identité.
+
+Ces deux éléments devront communiquer.
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+Chapitre 2 - Connexion d'une entreprise à FlexiCRM
+🎯 Objectif
+
+Permettre à une entreprise de connecter son numéro WhatsApp Business à FlexiCRM de manière sécurisée.
+
+À la fin de ce chapitre, nous devrons connaître toutes les étapes nécessaires à une installation.
+
+1. Avant toute chose
+
+Une entreprise qui souhaite utiliser FlexiCRM doit posséder :
+
+Un numéro de téléphone professionnel.
+Un compte Meta Business.
+Un accès à ce compte.
+Une connexion Internet.
+
+Le numéro appartient toujours à l'entreprise.
+
+2. Première rencontre avec le client
+
+Lorsque nous rencontrons une entreprise, nous devons vérifier plusieurs éléments.
+
+Informations générales
+Nom de l'entreprise
+Responsable
+Adresse
+Téléphone
+Email
+WhatsApp
+Le numéro est-il déjà utilisé sur WhatsApp Business ?
+Est-il utilisé sur un téléphone ?
+Est-il utilisé avec plusieurs employés ?
+Souhaite-t-il conserver ce numéro ?
+Meta Business
+
+L'entreprise possède-t-elle déjà un compte Meta Business ?
+
+Oui
+
+↓
+
+Continuer.
+
+Non
+
+↓
+
+Créer un compte Meta Business avec le client.
+
+3. Principe de connexion
+
+Le numéro WhatsApp n'est jamais transféré à FlexiCRM.
+
+Il reste la propriété de l'entreprise.
+
+FlexiCRM reçoit uniquement une autorisation d'utiliser ce numéro via l'API officielle de Meta.
+
+4. Les éléments nécessaires
+
+Pour connecter une entreprise, FlexiCRM devra récupérer plusieurs informations fournies par Meta.
+
+Nous n'allons pas encore les détailler, mais elles sont essentielles :
+
+Meta Business Account ID
+WhatsApp Business Account ID
+Phone Number ID
+Access Token
+Webhook
+
+👉 Nous étudierons chacun de ces éléments dans les chapitres suivants.
+
+5. Déroulement de l'installation
+
+L'installation suit toujours le même ordre :
+
+Entreprise
+
+↓
+
+Vérification du compte Meta Business
+
+↓
+
+Connexion ou création du compte
+
+↓
+
+Création ou liaison du numéro WhatsApp
+
+↓
+
+Autorisation de FlexiCRM
+
+↓
+
+Configuration du Webhook
+
+↓
+
+Test d'envoi
+
+↓
+
+Test de réception
+
+↓
+
+Création des employés
+
+↓
+
+Configuration du pipeline
+
+↓
+
+Installation terminée
+6. Bonnes pratiques
+Toujours utiliser le compte Meta Business de l'entreprise.
+Ne jamais demander le mot de passe personnel Facebook du dirigeant.
+Expliquer chaque étape au client.
+Faire un test d'envoi et de réception avant de quitter les lieux.
+Former au moins un responsable de l'entreprise.
+7. Ce qu'il faut retenir
+
+✔ Le numéro reste la propriété de l'entreprise.
+
+✔ FlexiCRM reçoit uniquement une autorisation.
+
+✔ Chaque installation suit exactement la même procédure.
+
+🎯 Objectif atteint
+
+À ce stade, nous comprenons le déroulement général d'une installation.
+
+Les prochains chapitres détailleront chaque élément technique.
+
+__________________________________________________________________________________________________________________________________________________________________________________________
+
+
+
+Chapitre 3 - Création de notre environnement Meta
+🎯 Objectif
+
+Créer l'environnement officiel permettant à FlexiCRM de communiquer avec la plateforme WhatsApp Business de Meta.
+
+À la fin de ce chapitre, FlexiCRM dispose de :
+
+Un compte Meta Developer.
+Une application Meta nommée FlexiCRM AI.
+Un Business Portfolio.
+L'accès à la plateforme WhatsApp Business.
+Un environnement de test.
+1. Création du compte Meta Developer
+
+La première étape consiste à disposer d'un compte Meta.
+
+À partir de ce compte, le développeur active l'accès à Meta for Developers.
+
+Ce compte permettra de créer et gérer les applications Meta.
+
+2. Création de la Meta App
+
+Une application nommée FlexiCRM AI est créée sur Meta Developers.
+
+Cette application représente officiellement notre logiciel auprès de Meta.
+
+Toutes les entreprises clientes utiliseront cette même application pour connecter leur numéro WhatsApp.
+
+3. Création du Business Portfolio
+
+Un Business Portfolio est créé afin de gérer les ressources professionnelles de FlexiCRM.
+
+Ce Portfolio permettra notamment de gérer :
+
+les applications Meta ;
+les numéros WhatsApp Business ;
+les utilisateurs autorisés ;
+les paramètres professionnels.
+
+Le Business Portfolio représente l'organisation FlexiCRM auprès de Meta.
+
+4. Activation de WhatsApp Business Platform
+
+Une fois l'application créée, le produit WhatsApp Business Platform est ajouté.
+
+Cette étape permet à FlexiCRM d'accéder aux fonctionnalités officielles de l'API WhatsApp.
+
+5. Environnement de test
+
+Meta fournit automatiquement un environnement de développement comprenant :
+
+un numéro WhatsApp de test ;
+un Phone Number ID ;
+un WhatsApp Business Account ID (WABA ID) ;
+un Access Token temporaire.
+
+Cet environnement permet de tester les échanges avec l'API avant de connecter un vrai numéro d'entreprise.
+
+6. Premier test
+
+Un premier message de test est envoyé avec succès depuis la plateforme Meta.
+
+Ce test confirme que :
+
+l'application fonctionne correctement ;
+l'API est accessible ;
+FlexiCRM est capable de communiquer avec WhatsApp Business Platform.
+7. Ce qu'il faut retenir
+La Meta App appartient à FlexiCRM.
+Le Business Portfolio représente l'organisation FlexiCRM auprès de Meta.
+Les entreprises connecteront leur propre numéro à cette application.
+Les tests sont réalisés avec un numéro fourni par Meta avant la mise en production.
+🎯 Objectif atteint
+
+À la fin de ce chapitre :
+
+FlexiCRM AI est officiellement enregistrée sur Meta.
+L'environnement de développement est opérationnel.
+Les premiers échanges avec l'API WhatsApp ont été validés.
+
+✅ Tu peux copier-coller ce chapitre dans ton document "04 - API WhatsApp.md".
+
+___________________________________________________________________________________________________________________________________________________________________________________________________
+
+
+
+
+
+
+
+Chapitre 4 - Le WhatsApp Business Account (WABA)
+🎯 Objectif
+
+Comprendre le rôle du WhatsApp Business Account (WABA) et son importance dans l'architecture de FlexiCRM.
+
+1. Définition
+
+Le WhatsApp Business Account (WABA) est le compte WhatsApp professionnel créé par Meta pour une entreprise.
+
+Chaque numéro WhatsApp connecté à l'API est obligatoirement rattaché à un WABA.
+
+Le WABA permet de gérer les numéros WhatsApp Business d'une entreprise.
+
+2. Relation avec Meta Business
+
+Il est important de distinguer deux notions :
+
+Meta Business Account
+
+Représente l'entreprise auprès de Meta.
+
+Il permet de gérer les ressources de l'entreprise (applications, utilisateurs, publicités, etc.).
+
+↓
+
+WhatsApp Business Account (WABA)
+
+Représente uniquement la partie WhatsApp de cette entreprise.
+
+Il contient les numéros WhatsApp Business utilisés avec l'API.
+
+3. Architecture
+Entreprise
+
+↓
+
+Meta Business Account
+
+↓
+
+WhatsApp Business Account (WABA)
+
+↓
+
+Numéro WhatsApp Business
+
+↓
+
+API WhatsApp
+
+↓
+
+FlexiCRM
+4. Dans FlexiCRM
+
+Chaque entreprise possédera :
+
+un Meta Business Account ;
+un WhatsApp Business Account (WABA) ;
+un ou plusieurs numéros WhatsApp Business.
+
+FlexiCRM utilisera ces informations pour connecter l'entreprise à son CRM.
+
+5. Le WABA dans notre architecture
+
+Le WABA permettra notamment de :
+
+gérer les numéros WhatsApp ;
+identifier l'entreprise auprès de Meta ;
+associer les numéros au bon compte professionnel.
+
+Chaque entreprise disposera de son propre WABA.
+
+6. Ce qu'il faut retenir
+Le WABA est créé par Meta.
+Il est différent du Meta Business Account.
+Il est indispensable pour utiliser l'API WhatsApp Business.
+Chaque entreprise possède son propre WABA.
+Tous les numéros WhatsApp Business de l'entreprise sont rattachés à ce WABA.
+🎯 Objectif atteint
+
+À la fin de ce chapitre, nous comprenons :
+
+ce qu'est un WhatsApp Business Account (WABA) ;
+la différence entre Meta Business Account et WABA ;
+comment le WABA s'intègre dans l'architecture de FlexiCRM.
+
+
+_____________________________________________________________________________________________________________________________________________________________________________________________________
+
+
+
+
+Chapitre 5 - Les Access Tokens
+🎯 Objectif
+
+Comprendre le rôle des Access Tokens et leur importance dans la communication entre FlexiCRM et l'API WhatsApp Business.
+
+1. Définition
+
+Un Access Token est une clé de sécurité fournie par Meta.
+
+Cette clé permet à FlexiCRM de prouver son identité lorsqu'il communique avec l'API WhatsApp Business.
+
+Sans Access Token valide, Meta refuse toutes les requêtes.
+
+2. Rôle du Token
+
+Chaque fois que FlexiCRM souhaite :
+
+envoyer un message ;
+récupérer des informations ;
+effectuer une action sur l'API WhatsApp ;
+
+le Token est envoyé avec la requête.
+
+Meta vérifie alors que FlexiCRM est autorisé à effectuer cette action.
+
+3. Les différents types de Tokens
+Access Token temporaire
+
+Caractéristiques :
+
+utilisé pour les tests ;
+généré automatiquement par Meta ;
+expire après un certain temps.
+
+Il est destiné au développement.
+
+Access Token permanent
+
+Caractéristiques :
+
+utilisé en production ;
+associé à une entreprise ;
+permet à FlexiCRM de fonctionner de manière continue.
+
+Chaque entreprise possédera son propre Access Token.
+
+4. Sécurité
+
+Un Access Token est une information confidentielle.
+
+Il ne doit jamais :
+
+être publié sur GitHub ;
+être partagé publiquement ;
+être affiché dans le navigateur d'un utilisateur.
+
+Il doit toujours être protégé.
+
+5. Utilisation dans FlexiCRM
+
+Chaque entreprise disposera de :
+
+son WhatsApp Business Account ;
+son Phone Number ID ;
+son Access Token.
+
+Lorsqu'un message sera envoyé, FlexiCRM utilisera automatiquement le Token correspondant à cette entreprise.
+
+6. Identification automatique de l'entreprise
+
+Lorsqu'un message est reçu depuis WhatsApp Business Platform, Meta fournit le Phone Number ID.
+
+FlexiCRM utilisera cet identifiant pour retrouver automatiquement :
+
+l'entreprise concernée ;
+son Access Token ;
+sa configuration WhatsApp.
+
+Le Phone Number ID devient ainsi l'élément principal permettant d'identifier à quelle entreprise appartient une conversation.
+
+7. Stockage des Tokens
+
+Les clés globales de FlexiCRM (OpenAI, Supabase, etc.) seront conservées dans les variables d'environnement du serveur.
+
+Les Access Tokens des entreprises seront enregistrés de manière sécurisée dans la base de données.
+
+Ils devront être protégés (chiffrement ou mécanisme de stockage sécurisé) afin d'empêcher tout accès non autorisé.
+
+8. Ce qu'il faut retenir
+Chaque entreprise possède son propre Access Token.
+Le Token permet à FlexiCRM de communiquer avec l'API WhatsApp.
+Sans Token valide, aucune requête n'est acceptée.
+Le Phone Number ID permet d'identifier automatiquement l'entreprise concernée.
+Les Tokens doivent toujours être stockés de manière sécurisée.
+🎯 Objectif atteint
+
+À la fin de ce chapitre, nous comprenons :
+
+le rôle des Access Tokens ;
+la différence entre un Token temporaire et un Token permanent ;
+comment FlexiCRM identifiera automatiquement l'entreprise concernée ;
+comment les Tokens seront utilisés et protégés dans notre architecture SaaS.
+
+_________________________________________________________________________________________________________________________________________________________________________________________________
+
+
+Chapitre 6 - Les Webhooks
+🎯 Objectif
+
+Comprendre comment Meta informe automatiquement FlexiCRM lorsqu'un événement se produit sur WhatsApp.
+
+1. Définition
+
+Un Webhook est une adresse (URL) fournie à Meta.
+
+Lorsqu'un événement se produit (nouveau message, statut d'un message, etc.), Meta envoie automatiquement les informations à cette adresse.
+
+FlexiCRM n'a donc pas besoin de demander en permanence si un nouveau message est arrivé.
+
+2. Fonctionnement
+
+Lorsqu'un client envoie un message :
+
+Client
+
+↓
+
+WhatsApp
+
+↓
+
+Meta
+
+↓
+
+Webhook FlexiCRM
+
+↓
+
+FlexiCRM
+
+Meta contacte directement FlexiCRM.
+
+3. Informations reçues
+
+Le Webhook peut contenir notamment :
+
+le Phone Number ID ;
+le numéro du client ;
+le contenu du message ;
+le type de message ;
+la date et l'heure ;
+l'identifiant du message.
+
+Ces informations permettent à FlexiCRM de traiter automatiquement chaque conversation.
+
+4. Rôle dans FlexiCRM
+
+Le Webhook constitue le point d'entrée principal du système.
+
+À la réception d'un message, FlexiCRM peut :
+
+identifier l'entreprise ;
+identifier ou créer le client ;
+créer une conversation ;
+créer un dossier ;
+déclencher les automatisations ;
+faire intervenir l'IA si nécessaire ;
+transmettre la conversation à un employé.
+5. Ce qu'il faut retenir
+Meta contacte FlexiCRM automatiquement.
+Le Webhook reçoit toutes les informations nécessaires au traitement du message.
+Le Phone Number ID permet d'identifier immédiatement l'entreprise concernée.
+Le Webhook est le point de départ de tous les traitements réalisés par FlexiCRM.
+🎯 Objectif atteint
+
+À la fin de ce chapitre, nous comprenons le rôle des Webhooks et leur importance dans l'architecture de FlexiCRM.
+
+______________________________________________________________________________________________________________________________________________________________________________________________
+
+
+Chapitre 7 - Transmission des messages vers WhatsApp
+🎯 Objectif
+
+Comprendre comment FlexiCRM transmet les messages des employés, de l'IA ou des automatisations vers l'API WhatsApp Business.
+
+1. Principe
+
+FlexiCRM ne communique pas directement avec les clients.
+
+Il transmet les messages à Meta via l'API officielle WhatsApp Business.
+
+Meta se charge ensuite de livrer ces messages aux destinataires.
+
+2. Les sources d'un message
+
+Un message peut être déclenché par :
+
+un employé ;
+l'intelligence artificielle ;
+une automatisation ;
+une action réalisée par un utilisateur.
+
+Dans tous les cas, FlexiCRM est chargé de transmettre le message à Meta.
+
+3. Préparation de la requête
+
+Avant d'envoyer un message, FlexiCRM prépare les informations nécessaires.
+
+La requête contient notamment :
+
+le Phone Number ID de l'entreprise ;
+l'Access Token ;
+le numéro du destinataire ;
+le contenu du message.
+
+Ces informations sont ensuite envoyées à l'API WhatsApp Business.
+
+4. Rôle de Meta
+
+À la réception de la requête :
+
+Meta vérifie le Token.
+Meta vérifie les autorisations.
+Meta envoie le message au destinataire.
+
+Si la requête est valide, Meta retourne une confirmation d'envoi.
+
+5. Architecture
+Employé / IA / Automatisation
+
+↓
+
+FlexiCRM
+
+↓
+
+API WhatsApp Business
+
+↓
+
+WhatsApp
+
+↓
+
+Client
+6. Ce qu'il faut retenir
+FlexiCRM ne remplace pas WhatsApp.
+FlexiCRM prépare les requêtes au format attendu par Meta.
+Meta est responsable de la livraison des messages.
+Tous les messages passent par l'API officielle.
+🎯 Objectif atteint
+
+À la fin de ce chapitre, nous comprenons comment FlexiCRM prépare et transmet les messages vers l'API WhatsApp Business.
+
+
+__________________________________________________________________________________________________________________________________________________________________________________________________
+
+
+
+📄 Chapitre 8 - Réception des messages dans FlexiCRM
+🎯 Objectif
+
+Comprendre comment FlexiCRM reçoit les messages envoyés par Meta et déclenche automatiquement les traitements du CRM.
+
+1. Principe
+
+Lorsqu'un client envoie un message sur WhatsApp, Meta envoie automatiquement les informations à l'adresse Webhook de FlexiCRM.
+
+FlexiCRM reçoit alors toutes les données nécessaires pour traiter la conversation.
+
+2. Fonctionnement
+Client
+
+↓
+
+WhatsApp
+
+↓
+
+Meta
+
+↓
+
+Webhook FlexiCRM
+
+↓
+
+Analyse du message
+
+↓
+
+Identification de l'entreprise
+
+↓
+
+Identification du client
+
+↓
+
+Traitement
+3. Traitements effectués
+
+À la réception d'un message, FlexiCRM peut automatiquement :
+
+Identifier l'entreprise grâce au Phone Number ID.
+Rechercher le client.
+Créer le client s'il n'existe pas.
+Créer une nouvelle conversation.
+Ajouter le message à l'historique.
+Déclencher les automatisations.
+Demander une réponse à l'IA.
+Attribuer la conversation à un employé si nécessaire.
+4. Les événements
+
+Le Webhook ne reçoit pas uniquement les nouveaux messages.
+
+Il peut également recevoir :
+
+confirmation d'envoi ;
+message distribué ;
+message lu ;
+réaction ;
+modification de profil ;
+autres événements fournis par Meta.
+
+FlexiCRM analysera chaque événement afin de maintenir les conversations à jour.
+
+5. Vérification du Webhook
+
+Avant d'envoyer les événements, Meta vérifie que l'adresse Webhook appartient bien à FlexiCRM.
+
+Cette vérification est réalisée grâce à un Verify Token défini lors de la configuration.
+
+Une fois cette vérification réussie, Meta peut envoyer les événements en toute sécurité.
+
+6. Ce qu'il faut retenir
+Tous les messages entrants arrivent par le Webhook.
+Le Webhook constitue le point d'entrée principal de FlexiCRM.
+Le Phone Number ID permet d'identifier automatiquement l'entreprise concernée.
+Chaque événement reçu peut déclencher plusieurs actions automatiques.
+🎯 Objectif atteint
+
+À la fin de ce chapitre, nous comprenons comment FlexiCRM reçoit les messages WhatsApp et déclenche automatiquement les traitements nécessaires.

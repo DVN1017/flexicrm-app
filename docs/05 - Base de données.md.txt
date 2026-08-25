@@ -1,0 +1,1387 @@
+📄 À COPIER DANS LE DOCUMENT 05
+Chapitre 1 - Les entreprises (Companies)
+🎯 Objectif
+
+Définir l'entité principale de FlexiCRM.
+
+Toutes les données du système sont rattachées à une entreprise.
+
+FlexiCRM est un logiciel SaaS multi-entreprises. Chaque entreprise possède ses propres employés, clients, conversations, paramètres et données.
+
+Les entreprises sont totalement indépendantes les unes des autres.
+
+1. Définition
+
+Une entreprise représente un client de FlexiCRM.
+
+Chaque entreprise dispose de son propre espace de travail.
+
+Aucune entreprise ne peut accéder aux données d'une autre.
+
+2. Informations principales
+
+Chaque entreprise possède notamment :
+
+Nom
+Logo
+Téléphone
+Email
+Adresse
+Ville
+Pays
+Fuseau horaire
+Devise
+Site web
+Description
+Statut (Actif / Suspendu)
+Date de création
+
+Ces informations permettront d'identifier l'entreprise et de personnaliser son environnement.
+
+3. Relations
+
+Une entreprise possède :
+
+plusieurs utilisateurs ;
+plusieurs clients ;
+plusieurs conversations ;
+plusieurs messages ;
+plusieurs pipelines ;
+plusieurs automatisations ;
+plusieurs paramètres IA ;
+plusieurs comptes WhatsApp.
+
+Toutes ces informations sont rattachées à l'entreprise.
+
+4. Statut
+
+Une entreprise peut être :
+
+Actif
+
+L'entreprise utilise normalement FlexiCRM.
+
+Suspendu
+
+L'entreprise ne peut plus utiliser FlexiCRM (par exemple en cas d'abonnement expiré), mais toutes ses données sont conservées.
+
+5. Ce qu'il faut retenir
+L'entreprise est l'entité principale de FlexiCRM.
+Toutes les données sont liées à une entreprise.
+Les entreprises sont totalement isolées les unes des autres.
+Le statut permet de gérer les abonnements sans supprimer les données.
+🎯 Objectif atteint
+
+À la fin de ce chapitre, nous comprenons que l'entreprise constitue la base de toute l'architecture de FlexiCRM.
+
+_________________________________________________________________________________________________________________________________________
+
+
+Chapitre 2 - Les utilisateurs (Users)
+🎯 Objectif
+
+Définir les personnes autorisées à utiliser FlexiCRM ainsi que leur rôle dans l'entreprise.
+
+1. Définition
+
+Un utilisateur représente une personne autorisée à accéder à FlexiCRM.
+
+Chaque utilisateur appartient à une seule entreprise.
+
+Une entreprise peut posséder plusieurs utilisateurs.
+
+2. Informations principales
+
+Chaque utilisateur possède notamment :
+
+Prénom
+Nom
+Email
+Téléphone
+Mot de passe (haché)
+Photo de profil (optionnelle)
+Statut (Actif / Désactivé)
+Date de création
+3. Les rôles
+
+Chaque utilisateur possède un rôle.
+
+Exemples :
+
+Directeur
+Administrateur
+Commercial
+Comptable
+Agent Visa
+
+Le rôle détermine les actions autorisées dans FlexiCRM.
+
+4. Les permissions
+
+Les permissions sont associées aux rôles.
+
+Exemples :
+
+Directeur
+
+Accès complet.
+
+Administrateur
+
+Gérer les utilisateurs.
+Configurer le CRM.
+Consulter les statistiques.
+
+Commercial
+
+Gérer les prospects.
+Répondre aux conversations qui lui sont attribuées.
+
+Comptable
+
+Gérer les paiements et les factures.
+Accéder aux informations financières selon les autorisations définies par l'entreprise.
+
+Les permissions pourront être adaptées selon les besoins de chaque entreprise.
+
+5. Visibilité des conversations
+
+FlexiCRM permettra aux entreprises de définir leurs propres règles.
+
+Exemples :
+
+Tous les commerciaux voient toutes les conversations.
+Chaque commercial voit uniquement les conversations qui lui sont attribuées.
+Les superviseurs disposent d'un accès global.
+
+Cette configuration sera personnalisable.
+
+6. Attribution des conversations
+
+Chaque conversation est attribuée à un utilisateur.
+
+En cas d'absence, de surcharge de travail ou de changement d'organisation, l'entreprise pourra réattribuer une conversation à un autre utilisateur.
+
+Cette attribution pourra être réalisée :
+
+manuellement ;
+automatiquement selon les règles définies par l'entreprise.
+7. Ce qu'il faut retenir
+Chaque utilisateur appartient à une seule entreprise.
+Les rôles définissent les permissions.
+Les entreprises peuvent personnaliser les règles de visibilité.
+Les conversations peuvent être réattribuées sans perdre leur historique.
+🎯 Objectif atteint
+
+À la fin de ce chapitre, nous comprenons comment FlexiCRM gère les utilisateurs, les rôles, les permissions et l'attribution des conversations.
+
+_____________________________________________________________________________________________________________________________________
+
+
+
+Chapitre 3 - Les clients (Clients)
+🎯 Objectif
+
+Définir les informations relatives aux clients de l'entreprise.
+
+Un client représente une personne ou une organisation qui échange avec l'entreprise via WhatsApp.
+
+Chaque client appartient à une seule entreprise.
+
+Un même client peut avoir plusieurs conversations et plusieurs dossiers au cours de sa relation avec l'entreprise.
+
+1. Définition
+
+Le client est la personne qui contacte l'entreprise.
+
+Il est créé automatiquement lors de la réception de son premier message WhatsApp ou peut être créé manuellement par un utilisateur.
+
+Chaque client est enregistré une seule fois.
+
+2. Informations principales
+
+Pour la Version 1 de FlexiCRM, chaque client possède notamment :
+
+Nom
+Téléphone
+Email (optionnel)
+Adresse (optionnelle)
+Notes
+Date de création
+
+Ces informations sont volontairement limitées afin de simplifier la première version.
+
+3. Les conversations
+
+Un client possède une conversation WhatsApp continue.
+
+Exemple :
+
+Client : Ben
+
+↓
+
+Conversation 1 : Visa Canada
+
+↓
+
+Conversation 2 : Visa USA
+
+↓
+
+Conversation 3 : Voyage Maroc
+
+Chaque conversation conserve son propre historique.
+
+4. Les dossiers
+
+Un client peut également posséder plusieurs dossiers.
+
+Exemples :
+
+Dossier Visa Canada
+Dossier Visa USA
+Dossier Visa France
+
+Les dossiers permettent de suivre les projets ou demandes du client sans créer un nouveau client.
+
+5. Les relations
+
+Chaque client est lié :
+
+à une entreprise ;
+à plusieurs conversations ;
+à plusieurs dossiers.
+
+Toutes ces informations sont conservées afin de suivre l'historique complet du client.
+
+6. Ce qu'il faut retenir
+Un client est créé une seule fois.
+Un client peut avoir plusieurs conversations.
+Un client peut avoir plusieurs dossiers.
+Les informations du client sont partagées entre tous ses dossiers.
+🎯 Objectif atteint
+
+À la fin de ce chapitre, nous comprenons que le client constitue l'élément central de la relation entre l'entreprise et ses conversations.
+
+_________________________________________________________________________________________________________________________________
+
+
+Chapitre 4 - Les pipelines et les dossiers
+🎯 Objectif
+
+Permettre à chaque entreprise d'organiser son travail selon ses propres processus.
+
+FlexiCRM ne fournit pas un pipeline unique.
+
+Chaque entreprise crée ses propres pipelines et leurs étapes.
+
+1. Les pipelines
+
+Un pipeline représente un processus de travail.
+
+Une entreprise peut créer plusieurs pipelines selon ses activités.
+
+Exemples :
+
+Pipeline Visa
+Pipeline Billets d'avion
+Pipeline Assurance voyage
+Pipeline Commandes
+Pipeline Support
+
+Chaque pipeline appartient à une seule entreprise.
+
+2. Les étapes
+
+Chaque pipeline est composé de plusieurs étapes.
+
+Exemple :
+
+Pipeline Visa :
+
+Nouveau
+Documents reçus
+Paiement
+Dépôt à l'ambassade
+Visa obtenu
+Terminé
+
+Les entreprises peuvent :
+
+créer de nouvelles étapes ;
+modifier les étapes ;
+réorganiser leur ordre ;
+supprimer des étapes non utilisées.
+
+Les modifications apportées au pipeline n'affectent pas les dossiers déjà en cours, sauf action volontaire de l'entreprise.
+
+3. Les dossiers
+
+Un dossier représente une demande ou un projet lié à un client.
+
+Exemples :
+
+Demande de visa
+Achat d'un billet
+Réservation d'hôtel
+Commande
+Demande de devis
+
+Un client peut posséder plusieurs dossiers.
+
+Chaque dossier appartient à un seul pipeline.
+
+4. Informations d'un dossier
+
+Chaque dossier possède notamment :
+
+Titre
+Client
+Pipeline
+Étape actuelle
+Employé responsable
+Priorité
+Statut (Ouvert, En attente, Terminé, Annulé)
+Date de création
+Date de clôture
+Notes internes
+5. Attribution
+
+Chaque dossier est attribué à un utilisateur.
+
+L'attribution peut être :
+
+manuelle ;
+automatique selon les règles définies par l'entreprise.
+
+Les dossiers peuvent être réattribués à tout moment sans perdre leur historique.
+
+6. Relations
+
+Chaque dossier est lié :
+
+à une entreprise ;
+à un client ;
+à un pipeline ;
+à une étape ;
+à un utilisateur responsable ;
+à plusieurs messages et notes.
+7. Ce qu'il faut retenir
+Chaque entreprise crée ses propres pipelines.
+Chaque pipeline possède ses propres étapes.
+Les dossiers suivent les étapes du pipeline.
+Les pipelines sont entièrement personnalisables.
+Les dossiers peuvent être réattribués sans perdre leur historique.
+🎯 Objectif atteint
+
+À la fin de ce chapitre, nous comprenons comment FlexiCRM organise le travail des entreprises grâce aux pipelines et aux dossiers.
+
+________________________________________________________________________________________________________________________________________
+
+
+Chapitre 5 - Les messages et les pièces jointes
+🎯 Objectif
+
+Conserver l'historique complet des échanges entre les clients, les employés et l'IA.
+
+Tous les messages échangés via WhatsApp sont enregistrés afin de garantir une traçabilité complète.
+
+1. Les messages
+
+Tous les messages sont enregistrés dans une seule table.
+
+Un message peut être de différents types :
+
+Texte
+Image
+Document
+Audio
+Vidéo
+Sticker
+Localisation
+Contact
+
+Chaque message appartient à une seule conversation.
+
+2. L'auteur du message
+
+Chaque message possède un expéditeur.
+
+Il peut s'agir :
+
+du client ;
+d'un employé ;
+de l'intelligence artificielle ;
+du système (automatisation).
+
+Cela permet de connaître précisément l'origine de chaque réponse.
+
+3. Les pièces jointes
+
+Les fichiers ne sont pas enregistrés directement dans la base de données.
+
+Ils sont stockés dans un espace de stockage sécurisé (Supabase Storage).
+
+La base de données conserve uniquement les informations permettant de retrouver le fichier.
+
+Exemples :
+
+chemin du fichier ;
+type MIME ;
+taille ;
+date d'envoi.
+4. Association aux dossiers
+
+Une pièce jointe reçue dans une conversation peut être associée à un dossier.
+
+Exemple :
+
+Un client envoie son passeport dans un message.
+
+Le commercial peut associer ce document au dossier « Visa Canada » sans créer une seconde copie du fichier.
+
+Le même document reste accessible depuis :
+
+le message d'origine ;
+le dossier concerné ;
+la fiche du client, si nécessaire.
+5. Historique
+
+Tous les messages sont conservés, y compris :
+
+les messages texte ;
+les images ;
+les documents ;
+les audios ;
+les vidéos.
+
+L'objectif est de conserver un historique complet de la relation avec le client.
+
+6. Ce qu'il faut retenir
+Tous les messages sont enregistrés.
+Une seule table gère tous les types de messages.
+Les fichiers sont stockés dans Supabase Storage.
+Une pièce jointe peut être liée à un dossier sans être dupliquée.
+L'historique complet est conservé.
+🎯 Objectif atteint
+
+À la fin de ce chapitre, nous comprenons comment FlexiCRM gère les messages, les pièces jointes et les documents tout en optimisant l'espace de stockage.
+
+______________________________________________________________________________________________________________________________________________________
+
+
+Chapitre 6 - Notifications
+🎯 Objectif
+
+Informer les utilisateurs en temps réel des événements importants afin d'améliorer la réactivité de l'entreprise.
+
+Les notifications permettent aux employés de ne manquer aucune action importante.
+
+1. Types de notifications
+
+FlexiCRM peut envoyer des notifications lorsqu'un événement se produit.
+
+Exemples :
+
+Nouveau message WhatsApp.
+Nouveau client.
+Nouveau dossier.
+Dossier réattribué.
+Paiement reçu.
+Paiement refusé.
+Nouveau commentaire.
+IA demandant l'intervention d'un humain.
+Employé mentionné dans une note.
+Rappel d'une tâche.
+2. Destinataires
+
+Chaque notification est envoyée uniquement aux utilisateurs concernés selon leurs permissions.
+
+Exemples :
+
+Un commercial reçoit les notifications concernant ses dossiers.
+Un comptable reçoit les notifications liées aux paiements.
+Un administrateur peut recevoir toutes les notifications.
+3. État des notifications
+
+Chaque notification possède un état.
+
+Non lue.
+Lue.
+Archivée.
+4. Affichage
+
+Les notifications sont accessibles depuis le centre de notifications de FlexiCRM.
+
+Chaque notification permet d'ouvrir directement :
+
+la conversation concernée ;
+le dossier concerné ;
+le paiement concerné ;
+le client concerné.
+5. Notifications futures
+
+Les futures versions pourront ajouter :
+
+Notifications Push sur mobile.
+Notifications par email.
+Notifications SMS.
+Notifications Microsoft Teams.
+Notifications Slack.
+6. Ce qu'il faut retenir
+Les notifications améliorent la réactivité.
+Elles respectent les permissions des utilisateurs.
+Elles permettent d'accéder rapidement à l'information concernée.
+🎯 Objectif atteint
+
+FlexiCRM informe automatiquement les utilisateurs des événements importants sans perturber leur travail.
+
+__________________________________________________________________________________________________________________________________________
+
+Chapitre 7 - Les paiements
+🎯 Objectif
+
+Permettre à l'entreprise de suivre les paiements liés aux dossiers et d'assurer un historique complet des transactions.
+
+Les paiements sont associés aux dossiers afin de faciliter le suivi financier des prestations.
+
+1. Les paiements
+
+Chaque dossier peut contenir un ou plusieurs paiements.
+
+Exemples :
+
+Acompte
+Paiement partiel
+Paiement final
+Remboursement
+
+Tous les paiements sont enregistrés dans l'historique du dossier.
+
+2. Informations d'un paiement
+
+Chaque paiement possède notamment :
+
+Numéro de paiement
+Dossier concerné
+Client
+Montant
+Devise
+Moyen de paiement
+Référence de transaction
+Statut
+Date du paiement
+Utilisateur ayant validé le paiement
+Notes (optionnel)
+3. Statuts
+
+Un paiement peut avoir les statuts suivants :
+
+En attente
+Payé
+Refusé
+Annulé
+Remboursé
+
+Les statuts permettent de suivre précisément l'évolution de chaque transaction.
+
+4. Moyens de paiement
+
+FlexiCRM est conçu pour fonctionner avec différents moyens de paiement.
+
+Exemples :
+
+Espèces
+Carte bancaire
+Virement bancaire
+Mobile Money
+Chèque
+Autres moyens définis par l'entreprise
+
+Les intégrations avec Stripe, Flutterwave, CinetPay, Chariow et d'autres passerelles seront ajoutées progressivement.
+
+5. Historique
+
+Toutes les opérations sont conservées.
+
+Chaque modification d'un paiement est enregistrée afin d'assurer une traçabilité complète.
+
+6. Permissions
+
+Seuls les utilisateurs autorisés peuvent :
+
+créer un paiement ;
+modifier un paiement ;
+valider un paiement ;
+annuler un paiement ;
+consulter l'historique des paiements.
+
+Les permissions sont entièrement configurables par l'entreprise.
+
+7. Ce qu'il faut retenir
+Un dossier peut contenir plusieurs paiements.
+Chaque paiement possède son propre historique.
+Les paiements sont protégés par les permissions.
+Toutes les opérations sont enregistrées.
+🎯 Objectif atteint
+
+FlexiCRM permet un suivi complet des paiements liés aux dossiers tout en garantissant la sécurité et la traçabilité des opérations.
+
+________________________________________________________________________________________________________________________________________
+
+
+Chapitre 8 - Intégration WhatsApp Business Platform
+🎯 Objectif
+
+Permettre à FlexiCRM de communiquer avec l'API officielle de WhatsApp Business Platform afin d'envoyer, recevoir et gérer les messages des clients.
+
+L'intégration est réalisée à l'aide de l'API Cloud de Meta.
+
+1. Principe de fonctionnement
+
+Chaque entreprise connecte son propre numéro WhatsApp Business à FlexiCRM.
+
+Chaque connexion est indépendante.
+
+Chaque entreprise possède :
+
+son compte WhatsApp Business ;
+son Phone Number ID ;
+son WhatsApp Business Account ID ;
+ses jetons d'accès (Access Tokens).
+
+Ces informations permettent à FlexiCRM de communiquer avec l'API de Meta.
+
+2. Réception des messages
+
+Lorsqu'un client envoie un message :
+
+Client
+
+↓
+
+WhatsApp
+
+↓
+
+Meta Cloud API
+
+↓
+
+Webhook FlexiCRM
+
+↓
+
+Conversation
+
+↓
+
+Employé ou IA
+
+Tous les messages entrants sont automatiquement enregistrés dans la base de données.
+
+3. Envoi des messages
+
+Les employés répondent directement depuis FlexiCRM.
+
+FlexiCRM transmet ensuite le message à l'API officielle de Meta.
+
+Le client reçoit le message sur WhatsApp sans savoir qu'il a été envoyé depuis FlexiCRM.
+
+L'expérience utilisateur reste identique à celle de WhatsApp.
+
+4. Conversation unique
+
+Chaque client possède une seule conversation WhatsApp continue.
+
+FlexiCRM n'interrompt jamais cette conversation.
+
+L'organisation du travail est réalisée grâce aux dossiers, et non par la création de plusieurs conversations.
+
+5. Attribution des conversations
+
+Une conversation peut être attribuée à un employé.
+
+Elle peut également être réattribuée à tout moment sans perdre l'historique.
+
+Le nouvel utilisateur retrouve immédiatement tous les échanges précédents.
+
+6. Intelligence Artificielle
+
+Selon la configuration de l'entreprise :
+
+l'IA peut répondre automatiquement ;
+transférer la conversation à un humain ;
+assister les employés ;
+ne pas intervenir.
+
+L'IA reste entièrement optionnelle.
+
+7. Numéro WhatsApp
+
+Chaque entreprise utilise son propre numéro WhatsApp Business.
+
+Le numéro peut être remplacé ultérieurement sans modifier l'architecture de FlexiCRM.
+
+8. Sécurité
+
+Les Access Tokens, Phone Number ID et autres informations sensibles sont stockés de manière sécurisée.
+
+Ils ne sont jamais accessibles aux utilisateurs non autorisés.
+
+9. Ce qu'il faut retenir
+Chaque entreprise connecte son propre compte WhatsApp Business.
+Toutes les communications passent par l'API officielle de Meta.
+Une seule conversation est conservée par client.
+Les dossiers organisent le travail sans modifier les habitudes des utilisateurs.
+L'IA est entièrement configurable.
+🎯 Objectif atteint
+
+FlexiCRM devient une interface de gestion connectée à WhatsApp Business Platform, tout en conservant une expérience utilisateur identique à WhatsApp.
+
+_________________________________________________________________________________________________________________________________________________________
+
+Chapitre 9 - Intelligence Artificielle
+🎯 Objectif
+
+Permettre aux entreprises d'utiliser une Intelligence Artificielle comme assistant afin d'améliorer la qualité des réponses, réduire le temps de traitement des demandes et automatiser certaines tâches.
+
+L'IA est une fonctionnalité entièrement configurable et reste toujours sous le contrôle de l'entreprise.
+
+1. Principe
+
+L'Intelligence Artificielle agit comme un collaborateur virtuel.
+
+Elle peut :
+
+répondre aux clients ;
+assister les employés ;
+proposer des réponses ;
+automatiser certaines actions ;
+transférer une conversation à un humain lorsque cela est nécessaire.
+
+L'entreprise choisit librement le niveau d'automatisation souhaité.
+
+2. Modes de fonctionnement
+
+FlexiCRM propose plusieurs niveaux d'utilisation de l'IA.
+
+Niveau 0
+
+Aucune Intelligence Artificielle.
+
+Les employés répondent eux-mêmes aux conversations.
+
+Niveau 1
+
+Accueil automatique uniquement.
+
+Niveau 2
+
+Accueil automatique et réponses aux questions fréquentes.
+
+Niveau 3
+
+Accueil, FAQ et assistance lorsque les employés sont indisponibles.
+
+Niveau 4
+
+Automatisation avancée.
+
+L'IA peut gérer une partie importante des conversations avant de transférer le dossier à un employé si nécessaire.
+
+3. Assistance aux employés
+
+L'IA peut assister les utilisateurs en proposant :
+
+des réponses suggérées ;
+des résumés de conversations ;
+des traductions ;
+des corrections de messages ;
+des analyses de dossiers.
+
+L'utilisateur reste libre d'accepter ou de modifier les propositions.
+
+4. Prise de décision
+
+L'IA ne prend jamais seule les décisions importantes.
+
+Les actions sensibles, telles que :
+
+validation d'un paiement ;
+suppression de données ;
+clôture définitive d'un dossier ;
+
+restent soumises aux permissions définies par l'entreprise.
+
+5. Personnalisation
+
+Chaque entreprise peut configurer :
+
+le niveau d'automatisation ;
+les horaires d'utilisation ;
+les langues prises en charge ;
+les règles de transfert vers un humain ;
+les consignes spécifiques de l'entreprise.
+6. Traçabilité
+
+Chaque intervention de l'IA est enregistrée.
+
+FlexiCRM conserve notamment :
+
+les réponses générées ;
+les actions réalisées ;
+les transferts vers un utilisateur ;
+les suggestions proposées.
+
+Toutes ces informations restent consultables dans l'historique.
+
+7. Ce qu'il faut retenir
+L'IA est entièrement optionnelle.
+Elle agit comme un assistant.
+L'entreprise garde toujours le contrôle.
+Toutes les actions sont enregistrées.
+🎯 Objectif atteint
+
+FlexiCRM permet d'intégrer une Intelligence Artificielle capable d'assister les entreprises tout en respectant leurs règles de fonctionnement.
+
+_________________________________________________________________________________________________________________________________________________
+Chapitre 10 - Les automatisations
+🎯 Objectif
+
+Permettre à FlexiCRM d'exécuter automatiquement certaines actions afin de réduire les tâches répétitives et d'améliorer la productivité des entreprises.
+
+Les automatisations sont entièrement configurables et peuvent être activées ou désactivées selon les besoins de chaque entreprise.
+
+1. Principe
+
+Une automatisation est une règle qui exécute une ou plusieurs actions lorsqu'un événement se produit.
+
+Exemple :
+
+SI un nouveau message est reçu
+
+ALORS attribuer automatiquement le dossier à un commercial disponible.
+
+2. Déclencheurs (Triggers)
+
+Une automatisation peut être déclenchée par différents événements.
+
+Exemples :
+
+Nouveau message reçu.
+Nouveau client créé.
+Nouveau dossier créé.
+Changement d'étape d'un dossier.
+Paiement reçu.
+Paiement refusé.
+Dossier terminé.
+Employé absent.
+Absence de réponse pendant un délai défini.
+3. Actions automatiques
+
+Une automatisation peut réaliser plusieurs actions.
+
+Exemples :
+
+Attribuer un dossier.
+Réattribuer un dossier.
+Envoyer un message.
+Envoyer une notification.
+Créer une tâche.
+Modifier une étape du pipeline.
+Ajouter une note.
+Demander l'intervention de l'IA.
+Transférer vers un responsable.
+
+Plusieurs actions peuvent être exécutées dans une même automatisation.
+
+4. Conditions
+
+Les automatisations peuvent être limitées par des conditions.
+
+Exemples :
+
+Uniquement pendant les heures d'ouverture.
+Seulement pour le pipeline Visa.
+Seulement pour certains utilisateurs.
+Seulement si le paiement est confirmé.
+Seulement si aucune réponse n'a été envoyée depuis un certain délai.
+5. Répartition intelligente
+
+FlexiCRM peut répartir automatiquement les dossiers selon les règles définies par l'entreprise.
+
+Exemples :
+
+Répartition équitable entre les commerciaux.
+Attribution selon la charge de travail.
+Attribution selon les compétences.
+Réattribution automatique en cas d'absence.
+
+L'objectif est d'équilibrer la charge de travail tout en maintenant un service rapide.
+
+6. Historique
+
+Toutes les automatisations exécutées sont enregistrées.
+
+L'entreprise peut consulter :
+
+la date d'exécution ;
+la règle utilisée ;
+les actions réalisées ;
+les éventuelles erreurs.
+7. Ce qu'il faut retenir
+Les automatisations réduisent les tâches répétitives.
+Chaque entreprise crée ses propres règles.
+Toutes les actions sont enregistrées.
+Les automatisations restent sous le contrôle de l'entreprise.
+🎯 Objectif atteint
+
+FlexiCRM permet d'automatiser les processus de l'entreprise tout en conservant une totale flexibilité.
+
+
+______________________________________________________________________________________________________________________________________________-
+
+
+
+Chapitre 11 - Les statistiques et tableaux de bord
+🎯 Objectif
+
+Permettre aux entreprises de suivre leurs performances grâce à des tableaux de bord et des indicateurs en temps réel.
+
+Les statistiques aident les dirigeants à prendre de meilleures décisions.
+
+1. Tableau de bord
+
+Chaque utilisateur voit un tableau de bord adapté à son rôle.
+
+Exemples :
+
+Directeur
+Administrateur
+Commercial
+Comptable
+
+Les informations affichées dépendent des permissions accordées.
+
+2. Indicateurs principaux
+
+FlexiCRM peut afficher notamment :
+
+Nombre de nouveaux clients.
+Nombre de conversations actives.
+Nombre de dossiers en cours.
+Nombre de dossiers terminés.
+Nombre de paiements reçus.
+Chiffre d'affaires.
+Nombre d'employés connectés.
+Temps moyen de réponse.
+Temps moyen de traitement d'un dossier.
+3. Statistiques par utilisateur
+
+L'entreprise peut consulter les performances de chaque utilisateur.
+
+Exemples :
+
+Nombre de dossiers traités.
+Nombre de conversations gérées.
+Temps moyen de réponse.
+Temps moyen de clôture d'un dossier.
+Satisfaction client (fonctionnalité future).
+
+Ces statistiques permettent d'identifier les besoins en formation et d'équilibrer la charge de travail.
+
+4. Statistiques par pipeline
+
+Chaque pipeline possède ses propres statistiques.
+
+Exemples :
+
+Nombre de dossiers par étape.
+Taux de réussite.
+Taux d'abandon.
+Durée moyenne de traitement.
+Revenus générés.
+5. Filtres
+
+Les statistiques peuvent être filtrées selon :
+
+une période ;
+un utilisateur ;
+un pipeline ;
+un client ;
+un statut ;
+un moyen de paiement.
+6. Exportation
+
+Les entreprises pourront exporter leurs statistiques dans différents formats.
+
+Exemples :
+
+PDF
+Excel
+CSV
+7. Ce qu'il faut retenir
+Les statistiques facilitent la prise de décision.
+Chaque utilisateur voit uniquement les données autorisées.
+Les indicateurs sont mis à jour automatiquement.
+Les données peuvent être exportées.
+🎯 Objectif atteint
+
+FlexiCRM fournit des tableaux de bord complets permettant aux entreprises de suivre leur activité et leurs performances en temps réel.
+
+
+__________________________________________________________________________________________________________________________________________________________________
+
+
+
+Chapitre 12 - Journal d'activité (Logs)
+🎯 Objectif
+
+Assurer une traçabilité complète de toutes les actions réalisées dans FlexiCRM.
+
+Le journal d'activité permet de savoir qui a fait quoi, quand et sur quel élément.
+
+1. Principe
+
+Chaque action importante effectuée dans FlexiCRM est automatiquement enregistrée.
+
+Le journal d'activité ne peut pas être modifié par les utilisateurs.
+
+Il constitue un historique fiable des opérations réalisées dans le système.
+
+2. Actions enregistrées
+
+FlexiCRM enregistre notamment :
+
+Connexion d'un utilisateur.
+Déconnexion.
+Création d'un client.
+Modification d'un client.
+Création d'un dossier.
+Modification d'un dossier.
+Changement d'étape.
+Attribution d'un dossier.
+Réattribution d'un dossier.
+Envoi d'un message.
+Réponse de l'IA.
+Création d'un paiement.
+Validation d'un paiement.
+Modification des paramètres.
+Création d'un utilisateur.
+Modification des permissions.
+3. Informations enregistrées
+
+Chaque événement contient notamment :
+
+Date et heure.
+Utilisateur concerné.
+Action réalisée.
+Élément concerné.
+Ancienne valeur (si applicable).
+Nouvelle valeur (si applicable).
+Adresse IP (optionnelle).
+Type d'appareil (optionnel).
+4. Recherche
+
+Le journal d'activité peut être filtré selon :
+
+utilisateur ;
+date ;
+type d'action ;
+dossier ;
+client ;
+entreprise.
+
+Cela facilite les recherches lors d'un contrôle ou d'un audit.
+
+5. Sécurité
+
+Seuls les utilisateurs autorisés peuvent consulter le journal d'activité.
+
+Les informations enregistrées ne peuvent pas être supprimées ou modifiées, sauf selon les règles de conservation définies par l'entreprise.
+
+6. Utilité
+
+Le journal d'activité permet notamment :
+
+d'identifier l'origine d'une erreur ;
+de résoudre un litige ;
+de suivre les actions des utilisateurs ;
+de renforcer la sécurité ;
+de faciliter les audits internes.
+7. Ce qu'il faut retenir
+Toutes les actions importantes sont enregistrées.
+Les journaux garantissent une traçabilité complète.
+Les informations sont protégées contre les modifications.
+Les recherches sont rapides grâce aux filtres.
+🎯 Objectif atteint
+
+FlexiCRM conserve un historique fiable de toutes les actions importantes afin d'assurer la sécurité, la transparence et la traçabilité du système.
+
+
+________________________________________________________________________________________________________________________________________________________________________________-
+
+
+Chapitre 13 - Paramètres
+🎯 Objectif
+
+Permettre à chaque entreprise de personnaliser FlexiCRM selon son organisation, ses règles de fonctionnement et ses besoins.
+
+Les paramètres sont propres à chaque entreprise et n'affectent jamais les autres entreprises.
+
+1. Informations de l'entreprise
+
+Chaque entreprise peut configurer :
+
+Nom de l'entreprise
+Logo
+Adresse
+Téléphone
+Email
+Site web
+Devise
+Fuseau horaire
+Langue principale
+2. Utilisateurs et rôles
+
+L'entreprise peut :
+
+créer des utilisateurs ;
+modifier les rôles ;
+attribuer des permissions ;
+désactiver un utilisateur ;
+réinitialiser un mot de passe.
+3. WhatsApp Business
+
+Chaque entreprise configure :
+
+son compte WhatsApp Business ;
+son Phone Number ID ;
+son WhatsApp Business Account (WABA) ;
+ses Access Tokens ;
+les paramètres du Webhook.
+
+Toutes ces informations sont stockées de manière sécurisée.
+
+4. Intelligence Artificielle
+
+L'entreprise peut configurer :
+
+le niveau d'automatisation ;
+les horaires d'utilisation ;
+les consignes données à l'IA ;
+les règles de transfert vers un humain ;
+les langues prises en charge.
+5. Pipelines
+
+Chaque entreprise peut :
+
+créer des pipelines ;
+modifier les étapes ;
+changer leur ordre ;
+activer ou désactiver un pipeline.
+6. Automatisations
+
+L'entreprise peut :
+
+créer des règles automatiques ;
+modifier les conditions ;
+activer ou désactiver une automatisation ;
+consulter l'historique des exécutions.
+7. Notifications
+
+Chaque utilisateur peut personnaliser ses notifications.
+
+Exemples :
+
+notifications en temps réel ;
+notifications par email ;
+notifications Push (version future).
+8. Paiements
+
+L'entreprise peut configurer :
+
+les moyens de paiement disponibles ;
+la devise utilisée ;
+les passerelles de paiement ;
+les modèles de reçus et de factures.
+9. Sécurité
+
+Les administrateurs peuvent définir :
+
+les règles de mot de passe ;
+la durée des sessions ;
+l'authentification à deux facteurs (version future) ;
+les restrictions d'accès.
+10. Ce qu'il faut retenir
+Chaque entreprise possède sa propre configuration.
+Les paramètres sont totalement indépendants d'une entreprise à l'autre.
+Les administrateurs gardent le contrôle sur la personnalisation du système.
+🎯 Objectif atteint
+
+FlexiCRM permet à chaque entreprise d'adapter le logiciel à son organisation sans modifier le fonctionnement des autres entreprises.
+
+
+
+___________________________________________________________________________________________________________________________________________________________________________
+
+
+
+Chapitre 14 - Relations entre les tables
+🎯 Objectif
+
+Définir les relations entre les principales tables de la base de données afin de garantir une architecture cohérente, évolutive et adaptée à un environnement SaaS multi-entreprises.
+
+Toutes les données de FlexiCRM sont organisées autour de l'entreprise, qui constitue l'entité principale du système.
+
+1. Entreprise
+
+Une entreprise possède :
+
+plusieurs utilisateurs ;
+plusieurs clients ;
+plusieurs pipelines ;
+plusieurs dossiers ;
+plusieurs paiements ;
+plusieurs automatisations ;
+plusieurs notifications ;
+plusieurs paramètres ;
+plusieurs comptes WhatsApp.
+
+Toutes les données sont isolées entre les entreprises.
+
+2. Utilisateurs
+
+Chaque utilisateur :
+
+appartient à une seule entreprise ;
+possède un rôle ;
+peut gérer plusieurs dossiers ;
+peut envoyer plusieurs messages ;
+peut recevoir plusieurs notifications.
+3. Clients
+
+Chaque client :
+
+appartient à une seule entreprise ;
+possède une seule conversation WhatsApp ;
+peut posséder plusieurs dossiers ;
+peut effectuer plusieurs paiements.
+4. Conversation
+
+Chaque conversation :
+
+appartient à un seul client ;
+contient plusieurs messages ;
+peut être attribuée à un utilisateur ;
+conserve l'historique complet des échanges.
+
+Une seule conversation est conservée par client afin de respecter le fonctionnement naturel de WhatsApp.
+
+5. Messages
+
+Chaque message :
+
+appartient à une seule conversation ;
+possède un expéditeur (client, employé, IA ou système) ;
+peut contenir une ou plusieurs pièces jointes ;
+peut être associé à un dossier.
+
+Tous les messages sont conservés dans l'historique.
+
+6. Pipelines
+
+Chaque pipeline :
+
+appartient à une seule entreprise ;
+possède plusieurs étapes ;
+contient plusieurs dossiers.
+7. Dossiers
+
+Chaque dossier :
+
+appartient à un client ;
+appartient à un pipeline ;
+se trouve dans une étape du pipeline ;
+est attribué à un utilisateur ;
+peut contenir plusieurs paiements ;
+peut contenir plusieurs notes ;
+peut être lié à plusieurs documents.
+8. Paiements
+
+Chaque paiement :
+
+appartient à un dossier ;
+appartient à un client ;
+est validé par un utilisateur autorisé.
+9. Documents
+
+Chaque document :
+
+est stocké une seule fois dans Supabase Storage ;
+peut être lié à un message ;
+peut être lié à un dossier ;
+peut être lié à un client.
+
+Aucune duplication des fichiers n'est effectuée.
+
+10. Intelligence Artificielle
+
+L'IA :
+
+assiste les utilisateurs ;
+peut répondre aux conversations ;
+peut créer des suggestions ;
+peut exécuter certaines automatisations selon les règles définies par l'entreprise.
+
+Toutes ses actions sont enregistrées.
+
+11. Journal d'activité
+
+Toutes les actions importantes sont enregistrées dans le journal d'activité.
+
+Chaque événement est associé à :
+
+un utilisateur ;
+une entreprise ;
+un élément concerné ;
+une date et une heure.
+12. Architecture générale
+Entreprise
+│
+├── Utilisateurs
+│
+├── Clients
+│   │
+│   ├── Conversation
+│   │      └── Messages
+│   │               └── Documents
+│   │
+│   └── Dossiers
+│           ├── Pipeline
+│           ├── Étape
+│           ├── Paiements
+│           ├── Notes
+│           └── Documents
+│
+├── Notifications
+├── Automatisations
+├── Paramètres
+├── IA
+└── Journal d'activité
+13. Ce qu'il faut retenir
+L'entreprise est l'élément central de FlexiCRM.
+Toutes les données sont rattachées à une entreprise.
+Les clients conservent une seule conversation WhatsApp.
+Les dossiers organisent le travail métier.
+Les pipelines définissent les processus de l'entreprise.
+Les documents sont stockés une seule fois.
+Les rôles et permissions sécurisent l'accès aux données.
+🎯 Objectif atteint
+
+À la fin de ce document, l'architecture de la base de données de FlexiCRM est clairement définie. Cette structure servira de référence pour la création des tables, des relations et des règles métier dans Supabase.
+
+
+__________________________________________________________________________________________________________________________________________________________________________________________________________________

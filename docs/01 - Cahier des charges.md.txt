@@ -1,0 +1,310 @@
+Chaque fonctionnalité développée doit permettre à une entreprise de gagner du temps, vendre davantage ou mieux organiser son travail.
+📘 CAHIER DES CHARGES – FLEXICRM AI
+Version 1.0
+Fondateur
+
+Ben
+
+Vision
+
+Créer un CRM moderne centré sur WhatsApp qui aide les entreprises à mieux gérer leurs clients, leurs employés et leurs ventes. L'Intelligence Artificielle est un outil d'assistance configurable, jamais une obligation.
+
+1. Le problème
+
+Aujourd'hui, de nombreuses entreprises utilisent WhatsApp pour communiquer avec leurs clients.
+
+Cependant elles rencontrent plusieurs difficultés :
+
+Les messages sont perdus.
+Les prospects ne sont pas relancés.
+Plusieurs employés répondent au même client.
+Les paiements sont difficiles à suivre.
+Il n'y a aucun historique.
+Les conversations ne sont pas organisées.
+Les clients attendent parfois plusieurs heures avant d'obtenir une réponse.
+2. Notre solution
+
+FlexiCRM est une plateforme SaaS permettant aux entreprises de gérer leurs conversations WhatsApp depuis une seule interface.
+
+Le logiciel permet notamment :
+
+Gérer les conversations.
+Organiser les employés.
+Suivre les prospects.
+Gérer les paiements.
+Ajouter une Intelligence Artificielle selon les besoins.
+Suivre les statistiques.
+Centraliser tout le travail.
+3. Notre philosophie
+
+Le CRM reste le cœur du produit.
+
+L'IA n'est pas obligatoire.
+
+Chaque entreprise choisit son niveau d'automatisation.
+
+Le logiciel s'adapte à l'entreprise et non l'inverse.
+
+4. Vision long terme
+
+Créer le CRM de référence pour les PME africaines utilisant WhatsApp.
+
+Le logiciel devra fonctionner pour :
+
+Restaurants
+Agences de voyage
+Cliniques
+Boutiques
+Entreprises informatiques
+Agences immobilières
+Centres de formation
+Toute autre entreprise utilisant WhatsApp.
+5. Les fonctionnalités V1
+Tableau de bord
+
+Afficher :
+
+Nouveaux prospects
+Conversations actives
+Paiements
+Employés connectés
+Statistiques rapides
+Conversations
+
+Le cœur du logiciel.
+
+Fonctionnalités :
+
+Liste des conversations
+Affectation à un employé
+Historique complet
+Notes privées
+Pièces jointes
+Recherche
+Filtres
+Clients
+
+Chaque client possède :
+
+Nom
+Téléphone
+WhatsApp
+Email (optionnel)
+Pays
+Entreprise
+Statut
+Historique
+Employés
+
+Chaque entreprise crée ses employés.
+
+Chaque employé possède :
+
+Nom
+Email
+Téléphone
+Fonction
+Permissions
+
+Les permissions détermineront les actions autorisées.
+
+Paiements
+
+Gestion des paiements.
+
+Compatibilité future avec :
+
+Stripe
+Flutterwave
+CinetPay
+Chariow
+Autres passerelles
+Paramètres
+
+Configuration :
+
+Logo
+Nom
+Adresse
+Horaires
+Services
+FAQ
+Moyens de paiement
+Signature des messages
+6. Intelligence Artificielle
+
+L'IA est entièrement optionnelle.
+
+Chaque entreprise choisit son niveau d'automatisation.
+
+Niveau 0
+
+Aucune IA.
+
+Les employés répondent eux-mêmes.
+
+Niveau 1
+
+Accueil automatique uniquement.
+
+Niveau 2
+
+Accueil + réponses aux questions fréquentes.
+
+Niveau 3
+
+Accueil + FAQ + assistance lorsqu'aucun employé ne répond.
+
+Niveau 4
+
+Automatisation avancée.
+
+L'IA répond en premier puis transfère à un humain lorsque nécessaire.
+
+L'entreprise pourra modifier ce niveau à tout moment.
+
+7. Permissions
+
+Le logiciel ne fonctionnera pas par métier.
+
+Il fonctionnera grâce aux permissions.
+
+Exemple :
+
+Commercial
+
+Voir les conversations
+Répondre aux clients
+
+Comptable
+
+Voir les paiements
+Valider les paiements
+
+Support
+
+Voir uniquement les dossiers terminés
+
+Administrateur
+
+Accès complet
+
+Chaque entreprise créera ses propres rôles.
+
+8. Flux général
+
+Client
+
+↓
+
+WhatsApp
+
+↓
+
+FlexiCRM
+
+↓
+
+Employé ou IA
+
+↓
+
+Paiement
+
+↓
+
+Clôture du dossier
+
+9. Technologies
+
+Frontend
+
+Next.js
+
+Backend
+
+Supabase
+
+IA
+
+OpenAI
+
+Messagerie
+
+WhatsApp Business Platform
+
+Paiements
+
+Stripe
+
+Flutterwave
+
+CinetPay
+
+Chariow
+
+10. Notre stratégie de lancement
+
+Phase 1
+
+FlexiService devient notre premier client.
+
+Phase 2
+
+Prospection physique.
+
+Présentation du logiciel.
+
+Installation.
+
+Formation.
+
+Support.
+
+Phase 3
+
+Amélioration selon les retours des premiers clients.
+
+Phase 4
+
+Commercialisation à grande échelle.
+
+11. Nos règles de développement
+
+Avant chaque nouvelle fonctionnalité, nous répondrons à ces questions :
+
+Question 1
+
+Est-ce que cette fonctionnalité résout un vrai problème ?
+
+Question 2
+
+Est-ce qu'elle fait gagner du temps ou de l'argent ?
+
+Question 3
+
+Est-ce qu'au moins 80 % des entreprises pourront l'utiliser ?
+
+Si la réponse est NON, cette fonctionnalité sera reportée.
+
+12. Notre objectif
+
+Nous ne voulons pas créer le CRM le plus compliqué.
+
+Nous voulons créer le CRM le plus simple à utiliser.
+
+Une entreprise doit pouvoir commencer à travailler en moins de 30 minutes.
+
+13. Notre promesse
+
+FlexiCRM s'adapte à votre entreprise.
+
+Ce n'est pas votre entreprise qui s'adapte au logiciel.
+
+14. Notre slogan (provisoire)
+
+Votre entreprise. Vos règles. Votre CRM.
+
+ou
+
+Gérez vos clients. Automatisez quand vous le souhaitez.

@@ -1,0 +1,251 @@
+📄 02 - Architecture Fonctionnelle
+FlexiCRM AI V1
+1. Principe général
+
+FlexiCRM est une plateforme SaaS permettant à une entreprise de gérer toutes ses conversations clients depuis une seule interface.
+
+Le logiciel fonctionne autour d'un seul élément :
+
+La conversation client.
+
+Chaque conversation peut être traitée par :
+
+un employé ;
+plusieurs employés ;
+l'IA ;
+ou une combinaison des deux.
+2. Architecture générale
+                CLIENT
+
+                  │
+
+          WhatsApp Business
+
+                  │
+
+         WhatsApp Cloud API
+
+                  │
+
+            FlexiCRM AI
+
+                  │
+
+     ┌────────────┼─────────────┐
+
+     │            │             │
+
+ Conversations  Employés        IA
+
+     │            │             │
+
+     └────────────┼─────────────┘
+
+                  │
+
+            Base de données
+
+                  │
+
+              Tableau de bord
+3. Cycle d'une conversation
+
+Tout commence lorsqu'un client envoie un message.
+
+Exemple :
+
+Bonjour, je voudrais voyager au Canada.
+
+↓
+
+Le message est reçu par WhatsApp.
+
+↓
+
+WhatsApp le transmet à FlexiCRM.
+
+↓
+
+FlexiCRM crée automatiquement une conversation.
+
+↓
+
+La conversation est enregistrée.
+
+↓
+
+Selon les paramètres de l'entreprise :
+
+un employé répond ;
+
+OU
+
+l'IA répond ;
+
+OU
+
+l'IA attend un certain délai avant de répondre.
+4. Les acteurs
+
+Le logiciel possède quatre acteurs principaux.
+
+Le client
+
+Il communique avec l'entreprise.
+
+Les employés
+
+Ils répondent aux conversations.
+
+Ils gèrent les dossiers.
+
+Ils effectuent les tâches.
+
+Le responsable
+
+Il supervise.
+
+Il voit toutes les conversations.
+
+Il configure l'entreprise.
+
+L'IA
+
+Elle aide.
+
+Elle ne remplace jamais totalement l'entreprise.
+
+Son comportement dépend des paramètres.
+
+5. Les niveaux d'automatisation
+
+Niveau 0
+
+100 % humain.
+
+Niveau 1
+
+Accueil automatique.
+
+Niveau 2
+
+Accueil + FAQ.
+
+Niveau 3
+
+Assistance lorsque personne ne répond.
+
+Niveau 4
+
+IA avancée.
+
+Toujours configurable.
+
+6. Gestion des employés
+
+Chaque entreprise décide :
+
+combien d'employés elle possède ;
+quels rôles existent ;
+quelles permissions chaque rôle possède.
+
+FlexiCRM n'impose aucune organisation.
+
+7. Attribution des conversations
+
+Chaque nouvelle conversation peut être :
+
+Attribuée automatiquement.
+
+Attribuée manuellement.
+
+Ou rester non attribuée.
+
+Une conversation peut également être réassignée à un autre employé.
+
+8. Les permissions
+
+Les permissions déterminent ce que chaque utilisateur peut faire.
+
+Exemples :
+
+Voir les conversations.
+
+Répondre.
+
+Voir les paiements.
+
+Modifier les paramètres.
+
+Créer des employés.
+
+Voir les statistiques.
+
+Chaque entreprise définit ses propres rôles.
+
+9. Paiements
+
+FlexiCRM ne gère pas directement l'argent.
+
+Le logiciel se connecte aux solutions de paiement choisies par l'entreprise.
+
+Exemples :
+
+Stripe
+
+Flutterwave
+
+Chariow
+
+CinetPay
+
+Autres.
+
+10. Philosophie
+
+Le logiciel ne doit jamais imposer une façon de travailler.
+
+Chaque entreprise possède :
+
+ses employés ;
+
+ses horaires ;
+
+ses règles ;
+
+ses niveaux d'automatisation ;
+
+ses moyens de paiement.
+
+11. Notre règle principale
+
+FlexiCRM doit s'adapter à l'entreprise.
+
+Jamais l'inverse.
+
+12. Notre objectif
+
+Une entreprise doit pouvoir utiliser FlexiCRM sans formation technique.
+
+Le logiciel doit être simple.
+
+Rapide.
+
+Intelligent.
+
+Configurable.
+
+13. Évolutivité
+
+L'architecture devra permettre d'ajouter facilement de nouvelles fonctionnalités sans modifier le fonctionnement principal du logiciel.
+
+14. Les principes fondateurs
+
+Avant chaque nouvelle fonctionnalité, nous nous poserons les questions suivantes :
+
+Est-ce que cela apporte de la valeur au client ?
+Est-ce que cela reste simple à utiliser ?
+Est-ce que cette fonctionnalité peut servir à plusieurs types d'entreprises ?
+Est-ce qu'elle peut être désactivée si le client ne la souhaite pas ?
+
+Si la réponse est NON, cette fonctionnalité ne fera pas partie de la V1.

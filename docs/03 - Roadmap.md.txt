@@ -1,0 +1,310 @@
+📄 03 - Roadmap
+🚀 PHASE 1 — MVP (Version Vendable)
+🎯 Objectif
+
+Développer une première version de FlexiCRM suffisamment complète pour être installée et vendue à une première entreprise.
+
+Authentification
+Connexion
+Déconnexion
+Mot de passe oublié
+Entreprise
+Création de l'entreprise
+Modification des informations
+Logo
+Horaires
+Services proposés
+FAQ
+Signature des messages
+WhatsApp
+Connexion d'un numéro WhatsApp Business
+Vérification de la connexion
+Réception des messages
+Envoi des messages
+Synchronisation des conversations
+Employés
+Ajouter un employé
+Modifier un employé
+Désactiver un employé
+Réinitialiser son mot de passe
+Conversations
+Réception des messages WhatsApp
+Réponse aux messages
+Historique complet
+Pièces jointes
+Notes privées
+Clients
+Création automatique d'un client
+Fiche client
+Historique des conversations
+Dossiers
+
+Chaque conversation peut créer un dossier.
+
+Chaque dossier contient :
+
+Informations du client
+Informations spécifiques au service
+Statut
+Employé responsable
+Historique
+Pipeline
+
+Chaque entreprise crée ses propres étapes.
+
+Exemple :
+
+Prospect
+
+↓
+
+Premier contact
+
+↓
+
+Devis envoyé
+
+↓
+
+Paiement
+
+↓
+
+Service en cours
+
+↓
+
+Terminé
+
+Le déplacement des cartes est manuel dans la V1.
+
+Tableau de bord
+
+Affichage :
+
+Nouveaux prospects
+Conversations actives
+Dossiers ouverts
+Paiements
+Statistiques simples
+Rôles & Permissions
+
+Créer des rôles personnalisés.
+
+Exemple :
+
+Administrateur
+Commercial
+Comptable
+Support
+
+Chaque rôle possède ses propres permissions.
+
+Résultat attendu
+
+À la fin de cette phase, une entreprise peut :
+
+connecter son WhatsApp ;
+discuter avec ses clients ;
+gérer ses employés ;
+créer des dossiers ;
+suivre ses prospects ;
+utiliser son pipeline.
+
+👉 FlexiCRM est prêt à être vendu à un premier client.
+
+🚀 PHASE 2 — Productivité
+🎯 Objectif
+
+Faire gagner du temps aux entreprises.
+
+Intelligence Artificielle
+Accueil automatique
+FAQ
+Assistance aux employés
+Relances
+
+Relance après :
+
+24 heures
+3 jours
+7 jours
+
+Relances manuelles ou automatiques.
+
+Notifications
+Nouveau message
+Paiement à vérifier
+Nouveau prospect
+Dossier bloqué
+Relance à effectuer
+Recherche
+Recherche globale
+Filtres
+Tags
+Notes privées
+
+Les employés peuvent communiquer entre eux sans que le client voie les messages.
+
+Pièces jointes
+
+Gestion des :
+
+Images
+PDF
+Documents
+🚀 PHASE 3 — Automatisation
+🎯 Objectif
+
+Automatiser les tâches répétitives.
+
+Automatisations
+
+Création de règles.
+
+Exemple :
+
+SI
+
+Le client écrit :
+
+"J'ai payé"
+
+ALORS
+
+↓
+
+Déplacer le dossier vers
+
+Paiement à vérifier
+
+↓
+
+Créer une tâche
+
+↓
+
+Notifier le comptable.
+
+Déplacement automatique
+
+Les dossiers peuvent changer d'étape automatiquement selon certaines règles.
+
+Création automatique de tâches
+
+Exemple :
+
+Nouvelle commande
+
+↓
+
+Créer automatiquement une tâche
+
+↓
+
+L'assigner au bon employé.
+
+🚀 PHASE 4 — Entreprise avancée
+🎯 Objectif
+
+Répondre aux besoins des entreprises plus importantes.
+
+Fonctionnalités :
+
+Plusieurs agences
+Succursales
+Tableau de bord avancé
+Rapports
+Exports
+Facturation
+API publique
+🚀 PHASE 5 — Plateforme complète
+🎯 Objectif
+
+Faire de FlexiCRM une plateforme complète.
+
+Fonctionnalités :
+
+Application mobile
+IA vocale
+Intégration Email
+Calendrier
+Signature électronique
+Marketplace
+Téléphonie
+Versions prévues
+Version 1.0
+
+Première version vendable.
+
+Objectif :
+
+Obtenir le premier client.
+
+Version 1.1
+
+Corrections
+
+Optimisations
+
+Amélioration des performances
+
+Version 1.2
+
+Relances
+
+Notifications
+
+Recherche
+
+Version 1.3
+
+Intelligence Artificielle
+
+Accueil automatique
+
+FAQ
+
+Assistance
+
+Version 2.0
+
+Automatisations
+
+Déplacement automatique
+
+Création automatique de tâches
+
+Règles personnalisées
+
+Version 3.0
+
+Application mobile
+
+Fonctionnalités avancées
+
+Synchronisation complète
+
+📌 Règle d'évolution
+
+Avant de développer une nouvelle fonctionnalité, nous vérifierons toujours :
+
+Résout-elle un problème réel ?
+Fait-elle gagner du temps ?
+Aide-t-elle l'entreprise à vendre davantage ?
+Est-elle suffisamment simple à utiliser ?
+Peut-elle servir à plusieurs types d'entreprises ?
+
+Si la réponse est NON, cette fonctionnalité sera ajoutée dans Idées futures et ne fera pas partie de la version en cours.
+
+🎯 Objectif final
+
+Construire un logiciel :
+
+simple ;
+rapide ;
+configurable ;
+adapté à tout type d'entreprise ;
+centré sur WhatsApp ;
+évolutif ;
+où l'IA reste un assistant configurable et non une obligation.
