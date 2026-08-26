@@ -3,10 +3,12 @@ import { notFound, redirect } from "next/navigation";
 
 import { AUTH_ROUTES } from "@/constants/auth";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
-import { getCurrentUserCompanyAccess } from "@/services/company.service";
-import { getConversation } from "@/services/conversation.service";
+import { getCurrentUserCompanyAccess, listCurrentCompanyMembers } from "@/services/company.service";
+import { getConversation, listConversationNotes } from "@/services/conversation.service";
 import { listMessages } from "@/services/message.service";
+import { ConversationControls } from "@/components/conversations/ConversationControls";
 import { MessageComposer } from "@/components/conversations/MessageComposer";
+import { PrivateNotes } from "@/components/conversations/PrivateNotes";
 
 export default async function ConversationPage({ params }: { params: Promise<{ conversationId: string }> }) {
   const { conversationId } = await params;
@@ -24,7 +26,16 @@ export default async function ConversationPage({ params }: { params: Promise<{ c
     notFound();
   }
 
-  const messages = await listMessages(supabase, access.companyId, conversationId);
+  const [messages, notes, members] = await Promise.all([
+    listMessages(supabase, access.companyId, conversationId),
+    listConversationNotes(supabase, access.companyId, conversationId),
+    listCurrentCompanyMembers(supabase, {
+      companyId: access.companyId,
+      currentUserId: user.id,
+      currentUserEmail: user.email ?? null,
+      currentUserRole: access.role,
+    }),
+  ]);
 
   return (
     <main className="min-h-screen bg-background px-4 py-8 text-text sm:px-6 lg:px-8">
@@ -36,6 +47,13 @@ export default async function ConversationPage({ params }: { params: Promise<{ c
             <p className="text-xs text-muted">{conversation.client?.phone ?? ""}</p>
           </div>
         </header>
+
+        <ConversationControls
+          conversationId={conversationId}
+          assignedUserId={conversation.assigned_user_id}
+          status={conversation.status}
+          members={members.map((member) => ({ userId: member.userId, email: member.email, role: member.role }))}
+        />
 
         <div className="flex-1 space-y-3 overflow-y-auto bg-background p-5">
           {messages.length === 0 ? (
@@ -53,6 +71,7 @@ export default async function ConversationPage({ params }: { params: Promise<{ c
           })}
         </div>
 
+        <PrivateNotes conversationId={conversationId} initialNotes={notes} />
         <MessageComposer conversationId={conversationId} />
       </section>
     </main>
