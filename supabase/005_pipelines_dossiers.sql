@@ -68,10 +68,7 @@ returns trigger
 language plpgsql
 as $$
 begin
-  if not exists (
-    select 1 from public.pipelines p
-    where p.id = new.pipeline_id and p.company_id = new.company_id
-  ) then
+  if not exists (select 1 from public.pipelines p where p.id = new.pipeline_id and p.company_id = new.company_id) then
     raise exception 'PIPELINE_COMPANY_MISMATCH';
   end if;
   return new;
@@ -79,70 +76,45 @@ end;
 $$;
 
 drop trigger if exists trg_pipeline_stage_company_matches on public.pipeline_stages;
-create trigger trg_pipeline_stage_company_matches
-before insert or update on public.pipeline_stages
-for each row execute function public.pipeline_stage_company_matches();
+create trigger trg_pipeline_stage_company_matches before insert or update on public.pipeline_stages for each row execute function public.pipeline_stage_company_matches();
 
 create or replace function public.dossier_company_matches()
 returns trigger
 language plpgsql
 as $$
 begin
-  if not exists (select 1 from public.clients c where c.id = new.client_id and c.company_id = new.company_id) then
-    raise exception 'DOSSIER_CLIENT_COMPANY_MISMATCH';
-  end if;
-  if not exists (select 1 from public.pipelines p where p.id = new.pipeline_id and p.company_id = new.company_id) then
-    raise exception 'DOSSIER_PIPELINE_COMPANY_MISMATCH';
-  end if;
-  if not exists (
-    select 1 from public.pipeline_stages s
-    where s.id = new.stage_id and s.pipeline_id = new.pipeline_id and s.company_id = new.company_id
-  ) then
-    raise exception 'DOSSIER_STAGE_COMPANY_MISMATCH';
-  end if;
-  if new.source_conversation_id is not null and not exists (
-    select 1 from public.conversations c
-    where c.id = new.source_conversation_id and c.company_id = new.company_id
-  ) then
-    raise exception 'DOSSIER_CONVERSATION_COMPANY_MISMATCH';
-  end if;
+  if not exists (select 1 from public.clients c where c.id = new.client_id and c.company_id = new.company_id) then raise exception 'DOSSIER_CLIENT_COMPANY_MISMATCH'; end if;
+  if not exists (select 1 from public.pipelines p where p.id = new.pipeline_id and p.company_id = new.company_id) then raise exception 'DOSSIER_PIPELINE_COMPANY_MISMATCH'; end if;
+  if not exists (select 1 from public.pipeline_stages s where s.id = new.stage_id and s.pipeline_id = new.pipeline_id and s.company_id = new.company_id) then raise exception 'DOSSIER_STAGE_COMPANY_MISMATCH'; end if;
+  if new.source_conversation_id is not null and not exists (select 1 from public.conversations c where c.id = new.source_conversation_id and c.company_id = new.company_id) then raise exception 'DOSSIER_CONVERSATION_COMPANY_MISMATCH'; end if;
   return new;
 end;
 $$;
 
 drop trigger if exists trg_dossier_company_matches on public.dossiers;
-create trigger trg_dossier_company_matches
-before insert or update on public.dossiers
-for each row execute function public.dossier_company_matches();
+create trigger trg_dossier_company_matches before insert or update on public.dossiers for each row execute function public.dossier_company_matches();
 
 create or replace function public.dossier_note_company_matches()
 returns trigger
 language plpgsql
 as $$
 begin
-  if not exists (
-    select 1 from public.dossiers d
-    where d.id = new.dossier_id and d.company_id = new.company_id
-  ) then
-    raise exception 'DOSSIER_NOTE_COMPANY_MISMATCH';
-  end if;
+  if not exists (select 1 from public.dossiers d where d.id = new.dossier_id and d.company_id = new.company_id) then raise exception 'DOSSIER_NOTE_COMPANY_MISMATCH'; end if;
   return new;
 end;
 $$;
 
 drop trigger if exists trg_dossier_note_company_matches on public.dossier_notes;
-create trigger trg_dossier_note_company_matches
-before insert or update on public.dossier_notes
-for each row execute function public.dossier_note_company_matches();
+create trigger trg_dossier_note_company_matches before insert or update on public.dossier_notes for each row execute function public.dossier_note_company_matches();
 
 create or replace function public.set_dossier_closed_at()
 returns trigger
 language plpgsql
 as $$
 begin
-  if new.status in ('completed', 'cancelled') and old.status is distinct from new.status then
+  if new.status in ('completed', 'cancelled') then
     new.closed_at = coalesce(new.closed_at, now());
-  elsif new.status not in ('completed', 'cancelled') then
+  else
     new.closed_at = null;
   end if;
   return new;
@@ -150,21 +122,14 @@ end;
 $$;
 
 drop trigger if exists trg_dossiers_closed_at on public.dossiers;
-create trigger trg_dossiers_closed_at
-before update on public.dossiers
-for each row execute function public.set_dossier_closed_at();
+create trigger trg_dossiers_closed_at before insert or update on public.dossiers for each row execute function public.set_dossier_closed_at();
 
 create or replace function public.validate_dossier_assignee()
 returns trigger
 language plpgsql
 as $$
 begin
-  if new.assigned_user_id is not null and not exists (
-    select 1 from public.company_members cm
-    where cm.company_id = new.company_id
-      and cm.user_id = new.assigned_user_id
-      and cm.status = 'active'
-  ) then
+  if new.assigned_user_id is not null and not exists (select 1 from public.company_members cm where cm.company_id = new.company_id and cm.user_id = new.assigned_user_id and cm.status = 'active') then
     raise exception 'DOSSIER_ASSIGNEE_NOT_IN_COMPANY';
   end if;
   return new;
@@ -172,9 +137,7 @@ end;
 $$;
 
 drop trigger if exists trg_dossier_assignee on public.dossiers;
-create trigger trg_dossier_assignee
-before insert or update on public.dossiers
-for each row execute function public.validate_dossier_assignee();
+create trigger trg_dossier_assignee before insert or update on public.dossiers for each row execute function public.validate_dossier_assignee();
 
 create or replace function public.set_dossier_updated_at()
 returns trigger
@@ -207,7 +170,6 @@ alter table public.dossier_notes force row level security;
 revoke all on table public.pipelines, public.pipeline_stages, public.dossiers, public.dossier_notes from anon, authenticated;
 grant select, insert, update, delete on public.pipelines, public.pipeline_stages, public.dossiers, public.dossier_notes to authenticated;
 
--- Pipeline configuration is administered by company admins.
 drop policy if exists pipelines_select_member on public.pipelines;
 create policy pipelines_select_member on public.pipelines for select to authenticated using (public.is_company_member(company_id));
 drop policy if exists pipelines_insert_admin on public.pipelines;
@@ -226,7 +188,6 @@ create policy pipeline_stages_update_admin on public.pipeline_stages for update 
 drop policy if exists pipeline_stages_delete_admin on public.pipeline_stages;
 create policy pipeline_stages_delete_admin on public.pipeline_stages for delete to authenticated using (public.is_company_admin(company_id));
 
--- Dossiers are visible and manageable by company members in V1.
 drop policy if exists dossiers_select_member on public.dossiers;
 create policy dossiers_select_member on public.dossiers for select to authenticated using (public.is_company_member(company_id));
 drop policy if exists dossiers_insert_member on public.dossiers;
