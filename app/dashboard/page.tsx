@@ -37,6 +37,9 @@ export default async function DashboardPage() {
           <Link href="/dashboard/conversations" className="rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-white hover:opacity-90">
             Ouvrir les conversations
           </Link>
+          <Link href="/dashboard/clients" className="rounded-xl border border-border px-5 py-3 text-sm font-medium text-text hover:bg-background">
+            Ouvrir les clients
+          </Link>
           {companyAccess && companyAccess.role !== "member" ? (
             <Link className="rounded-xl border border-border px-5 py-3 text-sm font-medium text-text hover:bg-background" href={AUTH_ROUTES.DASHBOARD_TEAM}>
               {AUTH_MESSAGES.GO_TO_TEAM}
