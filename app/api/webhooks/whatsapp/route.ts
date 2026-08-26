@@ -3,6 +3,16 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { processIncomingWhatsAppText } from "@/services/whatsapp.service";
 
+type UnknownRecord = Record<string, unknown>;
+
+function isRecord(value: unknown): value is UnknownRecord {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function isRecordArray(value: unknown): value is UnknownRecord[] {
+  return Array.isArray(value) && value.every(isRecord);
+}
+
 function verifyMetaSignature(rawBody: string, signature: string | null) {
   const secret = process.env.META_APP_SECRET;
   if (!secret || !signature?.startsWith("sha256=")) return false;
@@ -37,37 +47,43 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const payload = JSON.parse(rawBody) as Record<string, unknown>;
-    const entries = Array.isArray(payload.entry) ? payload.entry : [];
+    const parsedPayload: unknown = JSON.parse(rawBody);
+    if (!isRecord(parsedPayload)) {
+      return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
+    }
+
+    const entries = isRecordArray(parsedPayload.entry) ? parsedPayload.entry : [];
 
     for (const entry of entries) {
-      const changes = Array.isArray((entry as Record<string, unknown>).changes)
-        ? (entry as Record<string, unknown>).changes
-        : [];
+      const changes = isRecordArray(entry.changes) ? entry.changes : [];
 
       for (const change of changes) {
-        const value = (change as Record<string, unknown>).value as Record<string, unknown> | undefined;
+        const value = isRecord(change.value) ? change.value : null;
         if (!value) continue;
 
-        const metadata = value.metadata as Record<string, unknown> | undefined;
+        const metadata = isRecord(value.metadata) ? value.metadata : null;
         const phoneNumberId = typeof metadata?.phone_number_id === "string" ? metadata.phone_number_id : null;
-        const messages = Array.isArray(value.messages) ? value.messages : [];
+        const messages = isRecordArray(value.messages) ? value.messages : [];
         if (!phoneNumberId) continue;
 
-        for (const item of messages) {
-          const message = item as Record<string, unknown>;
-          const text = message.text as Record<string, unknown> | undefined;
-          if (message.type !== "text" || typeof text?.body !== "string" || typeof message.id !== "string" || typeof message.from !== "string") continue;
+        const contacts = isRecordArray(value.contacts) ? value.contacts : [];
+        const contact = contacts[0];
+        const profile = contact && isRecord(contact.profile) ? contact.profile : null;
+        const profileName = typeof profile?.name === "string" ? profile.name : undefined;
 
-          const contacts = Array.isArray(value.contacts) ? value.contacts : [];
-          const contact = contacts[0] as Record<string, unknown> | undefined;
-          const profile = contact?.profile as Record<string, unknown> | undefined;
+        for (const message of messages) {
+          if (message.type !== "text" || typeof message.id !== "string" || typeof message.from !== "string") {
+            continue;
+          }
+
+          const text = isRecord(message.text) ? message.text : null;
+          if (typeof text?.body !== "string") continue;
 
           await processIncomingWhatsAppText({
             externalMessageId: message.id,
             phoneNumberId,
             from: message.from,
-            profileName: typeof profile?.name === "string" ? profile.name : undefined,
+            profileName,
             text: text.body,
             timestamp: typeof message.timestamp === "string" ? message.timestamp : undefined,
             rawPayload: message,
