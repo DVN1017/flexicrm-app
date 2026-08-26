@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { AUTH_ROUTES } from "@/constants/auth";
+import { WhatsAppTestSimulatorButton } from "@/components/conversations/WhatsAppTestSimulatorButton";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { getCurrentUserCompanyAccess } from "@/services/company.service";
 import { listConversations } from "@/services/conversation.service";
@@ -15,6 +16,7 @@ export default async function ConversationsPage() {
   if (!access) redirect(AUTH_ROUTES.CREATE_COMPANY);
 
   const conversations = await listConversations(supabase, access.companyId);
+  const showWhatsAppTestSimulator = process.env.ALLOW_WHATSAPP_TEST_ROUTE === "true";
 
   return (
     <main className="min-h-screen bg-background px-4 py-8 text-text sm:px-6 lg:px-8">
@@ -25,7 +27,10 @@ export default async function ConversationsPage() {
             <h1 className="mt-3 text-3xl font-semibold tracking-tight">Conversations</h1>
             <p className="mt-1 text-sm text-muted">Centralisez les échanges WhatsApp de votre entreprise.</p>
           </div>
-          <div className="rounded-full border border-border bg-surface px-4 py-2 text-sm text-muted">{conversations.length} conversation(s)</div>
+          <div className="flex flex-col items-end gap-3">
+            <div className="rounded-full border border-border bg-surface px-4 py-2 text-sm text-muted">{conversations.length} conversation(s)</div>
+            {showWhatsAppTestSimulator ? <WhatsAppTestSimulatorButton /> : null}
+          </div>
         </div>
 
         <div className="overflow-hidden rounded-2xl border border-border bg-surface shadow-soft">
