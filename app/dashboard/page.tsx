@@ -34,16 +34,12 @@ export default async function DashboardPage() {
         </div>
 
         <div className="mt-6 flex flex-wrap gap-3">
-          <Link href="/dashboard/conversations" className="rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-white hover:opacity-90">
-            Ouvrir les conversations
-          </Link>
-          <Link href="/dashboard/clients" className="rounded-xl border border-border px-5 py-3 text-sm font-medium text-text hover:bg-background">
-            Ouvrir les clients
-          </Link>
+          <Link href="/dashboard/conversations" className="rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-white hover:opacity-90">Ouvrir les conversations</Link>
+          <Link href="/dashboard/clients" className="rounded-xl border border-border px-5 py-3 text-sm font-medium text-text hover:bg-background">Ouvrir les clients</Link>
+          <Link href="/dashboard/dossiers" className="rounded-xl border border-border px-5 py-3 text-sm font-medium text-text hover:bg-background">Ouvrir les dossiers</Link>
+          <Link href="/dashboard/pipelines" className="rounded-xl border border-border px-5 py-3 text-sm font-medium text-text hover:bg-background">Gérer les pipelines</Link>
           {companyAccess && companyAccess.role !== "member" ? (
-            <Link className="rounded-xl border border-border px-5 py-3 text-sm font-medium text-text hover:bg-background" href={AUTH_ROUTES.DASHBOARD_TEAM}>
-              {AUTH_MESSAGES.GO_TO_TEAM}
-            </Link>
+            <Link className="rounded-xl border border-border px-5 py-3 text-sm font-medium text-text hover:bg-background" href={AUTH_ROUTES.DASHBOARD_TEAM}>{AUTH_MESSAGES.GO_TO_TEAM}</Link>
           ) : null}
           <DashboardSignOutButton />
         </div>
