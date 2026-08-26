@@ -1,4 +1,4 @@
--- FlexiCRM - Conversation productivity (private notes + safer WhatsApp account reads)
+-- FlexiCRM - Conversation productivity (private notes + safer WhatsApp reads)
 -- Run after 003_conversations.sql.
 
 begin;
@@ -85,7 +85,6 @@ revoke select on table public.whatsapp_accounts from authenticated, anon;
 
 drop view if exists public.whatsapp_accounts_safe;
 create view public.whatsapp_accounts_safe
-with (security_invoker = true)
 as
 select
   id,
@@ -97,12 +96,12 @@ select
   status,
   created_at,
   updated_at
-from public.whatsapp_accounts;
+from public.whatsapp_accounts
+where public.is_company_member(company_id);
 
 grant select on public.whatsapp_accounts_safe to authenticated;
 
 grant select on public.conversation_notes to authenticated;
-
 grant insert on public.conversation_notes to authenticated;
 grant update on public.conversation_notes to authenticated;
 grant delete on public.conversation_notes to authenticated;
