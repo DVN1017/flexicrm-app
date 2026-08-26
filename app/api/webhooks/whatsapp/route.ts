@@ -1,7 +1,10 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
 import { NextRequest, NextResponse } from "next/server";
 
-import { processIncomingWhatsAppText } from "@/services/whatsapp.service";
+import { updateMessageStatus } from "@/services/message.service";
+import { processIncomingWhatsAppText, getWhatsAppAccountByPhoneNumberId } from "@/services/whatsapp.service";
+import { createAdminSupabaseClient } from "@/lib/supabase/admin";
+import type { MessageStatus } from "@/types/conversations";
 
 type UnknownRecord = Record<string, unknown>;
 
@@ -26,6 +29,11 @@ function verifyMetaSignature(rawBody: string, signature: string | null) {
   return timingSafeEqual(expectedBuffer, receivedBuffer);
 }
 
+function toMessageStatus(value: unknown): MessageStatus | null {
+  if (value === "sent" || value === "delivered" || value === "read" || value === "failed") return value;
+  return null;
+}
+
 export async function GET(request: NextRequest) {
   const mode = request.nextUrl.searchParams.get("hub.mode");
   const token = request.nextUrl.searchParams.get("hub.verify_token");
@@ -48,11 +56,10 @@ export async function POST(request: NextRequest) {
 
   try {
     const parsedPayload: unknown = JSON.parse(rawBody);
-    if (!isRecord(parsedPayload)) {
-      return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
-    }
+    if (!isRecord(parsedPayload)) return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
 
     const entries = isRecordArray(parsedPayload.entry) ? parsedPayload.entry : [];
+    const admin = createAdminSupabaseClient();
 
     for (const entry of entries) {
       const changes = isRecordArray(entry.changes) ? entry.changes : [];
@@ -63,19 +70,19 @@ export async function POST(request: NextRequest) {
 
         const metadata = isRecord(value.metadata) ? value.metadata : null;
         const phoneNumberId = typeof metadata?.phone_number_id === "string" ? metadata.phone_number_id : null;
-        const messages = isRecordArray(value.messages) ? value.messages : [];
         if (!phoneNumberId) continue;
 
+        const account = await getWhatsAppAccountByPhoneNumberId(phoneNumberId);
+        if (!account) continue;
+
+        const messages = isRecordArray(value.messages) ? value.messages : [];
         const contacts = isRecordArray(value.contacts) ? value.contacts : [];
         const contact = contacts[0];
         const profile = contact && isRecord(contact.profile) ? contact.profile : null;
         const profileName = typeof profile?.name === "string" ? profile.name : undefined;
 
         for (const message of messages) {
-          if (message.type !== "text" || typeof message.id !== "string" || typeof message.from !== "string") {
-            continue;
-          }
-
+          if (message.type !== "text" || typeof message.id !== "string" || typeof message.from !== "string") continue;
           const text = isRecord(message.text) ? message.text : null;
           if (typeof text?.body !== "string") continue;
 
@@ -88,6 +95,14 @@ export async function POST(request: NextRequest) {
             timestamp: typeof message.timestamp === "string" ? message.timestamp : undefined,
             rawPayload: message,
           });
+        }
+
+        const statuses = isRecordArray(value.statuses) ? value.statuses : [];
+        for (const status of statuses) {
+          if (typeof status.id !== "string") continue;
+          const messageStatus = toMessageStatus(status.status);
+          if (!messageStatus) continue;
+          await updateMessageStatus(admin, account.company_id, status.id, messageStatus);
         }
       }
     }
