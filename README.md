@@ -1,36 +1,88 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# FlexiCRM
 
-## Getting Started
+FlexiCRM is a multi-tenant customer relationship management platform built with Next.js, TypeScript, Tailwind CSS and Supabase.
 
-First, run the development server:
+## Current modules
+
+- Authentication and company workspaces
+- Company members and invitations
+- WhatsApp conversations and message history
+- Client records and client conversation history
+- Sales pipelines and dossiers
+- Conversation and dossier internal notes
+- Dashboard activity indicators
+- Meta WhatsApp webhook verification and delivery-status handling
+
+Some integrations and database migrations still require validation against the connected Supabase project and a live Meta WhatsApp Business account. A feature present in the repository is not considered production-verified until its workflow has been tested.
+
+## Requirements
+
+- Node.js 20+
+- npm
+- A Supabase project (PostgreSQL 15+ recommended)
+
+## Local setup
+
+1. Clone the repository.
+2. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+3. Create a local `.env.local` file with the required values:
+
+   ```env
+   NEXT_PUBLIC_SUPABASE_URL=
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=
+   SUPABASE_SERVICE_ROLE_KEY=
+   META_APP_SECRET=
+   WHATSAPP_VERIFY_TOKEN=
+   ```
+
+   Never commit real credentials. The service-role key and Meta app secret must remain server-side and must never use a `NEXT_PUBLIC_` prefix.
+
+4. Start the development server:
+
+   ```bash
+   npm run dev
+   ```
+
+5. Open http://localhost:3000.
+
+## Validation commands
+
+Run these before considering a change ready:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run typecheck
+npm run lint
+npm run build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+A GitHub Actions workflow runs these checks on pushes and pull requests.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Supabase database
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Apply SQL migrations in order from the Supabase SQL Editor:
 
-## Learn More
+1. `supabase/001_companies.sql`
+2. `supabase/002_company_invitations.sql`
+3. `supabase/003_conversations.sql`
+4. `supabase/004_conversation_productivity.sql`
+5. `supabase/005_pipelines_dossiers.sql`
+6. `supabase/006_security_hardening.sql`
 
-To learn more about Next.js, take a look at the following resources:
+Before applying migrations to production, take a database backup and verify the target Supabase project. The migration files in GitHub do not prove that they have already been applied to a live database.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## WhatsApp webhook
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Configure the Meta WhatsApp webhook callback URL as:
 
-## Deploy on Vercel
+`https://YOUR_DOMAIN/api/webhooks/whatsapp`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Subscribe to the `messages` webhook field. Set `META_APP_SECRET` and `WHATSAPP_VERIFY_TOKEN` in the server environment. Test webhook verification, inbound messages and outbound delivery-status callbacks using a real Meta test number before production use.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Deployment
+
+Deploy the Next.js application to a Node.js-compatible host such as Vercel. Configure all environment variables in the host's server-side environment settings, then run the production build and test the complete user journey.
